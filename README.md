@@ -1,2 +1,2 @@
 # E-Commerce-Lumitech
- A personal project showcasing an E-Commerce website built with Spring Boot for technologic components.
+ A personal project showcasing an E-Commerce website for tech components built with Spring Boot.
