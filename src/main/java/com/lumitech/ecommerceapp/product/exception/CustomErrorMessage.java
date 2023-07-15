@@ -1,4 +1,4 @@
-package com.lumitech.ecommerceapp.common.exception;
+package com.lumitech.ecommerceapp.product.exception;
 
 import java.time.LocalDateTime;
 
