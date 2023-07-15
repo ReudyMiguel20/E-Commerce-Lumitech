@@ -14,10 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
@@ -34,7 +31,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now(),
                 status.value(),
                 status.toString(),
-                "The request body is invalid",
+                "The request contains invalid data",
                 path
         );
 

@@ -1,9 +1,20 @@
 package com.lumitech.ecommerceapp.product.model.dto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 
+import java.util.Objects;
+
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class NewProduct {
 
     @NotEmpty(message = "Name cannot be empty")
@@ -24,54 +35,17 @@ public class NewProduct {
     @NotEmpty(message = "Brand cannot be empty")
     private String brand;
 
-    public NewProduct() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewProduct that = (NewProduct) o;
+        return Double.compare(that.price, price) == 0 && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(category, that.category) && Objects.equals(brand, that.brand);
     }
 
-    public NewProduct(String name, String description, double price, String category, String brand) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.brand = brand;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, price, category, brand);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
 }
