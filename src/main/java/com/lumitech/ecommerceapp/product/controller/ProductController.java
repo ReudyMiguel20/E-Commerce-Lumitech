@@ -46,7 +46,7 @@ public class ProductController {
         }
 
         //Add the product to the database and return a JSON response of said product
-        this.productService.addNewProduct(tempProduct);
+        this.productService.save(tempProduct);
         return ResponseEntity.ok().body(tempProduct);
     }
 }

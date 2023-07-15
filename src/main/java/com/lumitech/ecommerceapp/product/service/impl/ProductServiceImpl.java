@@ -7,6 +7,7 @@ import com.lumitech.ecommerceapp.product.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -18,13 +19,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void addNewProduct(Product product) {
+    public void save(Product product) {
         this.productRepository.save(product);
     }
 
     @Override
     public Product convertToProduct(NewProduct newProduct) {
-        return new Product(newProduct.getName(), newProduct.getDescription(), newProduct.getPrice(), newProduct.getCategory(), newProduct.getBrand());
+        return Product.builder()
+                .name(newProduct.getName())
+                .description(newProduct.getDescription())
+                .price(newProduct.getPrice())
+                .category(newProduct.getCategory())
+                .brand(newProduct.getBrand())
+                .build();
     }
 
     @Override
@@ -44,10 +51,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean isProductNull(Product product) {
-        if (product == null) {
-            return true;
-        }
-        return false;
+        return product == null;
     }
 
     @Override
@@ -58,6 +62,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAllProducts() {
         return this.productRepository.findAll();
+    }
+
+    @Override
+    public Product findByName(String productName) {
+        return this.productRepository.findByName(productName)
+                .orElse(null);
     }
 
 //    public

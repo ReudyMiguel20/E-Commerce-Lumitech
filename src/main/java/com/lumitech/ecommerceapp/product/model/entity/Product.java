@@ -2,6 +2,7 @@ package com.lumitech.ecommerceapp.product.model.entity;
 
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Objects;
 
@@ -10,6 +11,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "products")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -20,17 +24,6 @@ public class Product {
     private double price;
     private String category;
     private String brand;
-
-    public Product() {
-    }
-
-    public Product(String name, String description, double price, String category, String brand) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.brand = brand;
-    }
 
     public long getId() {
         return id;

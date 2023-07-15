@@ -26,16 +26,16 @@ class ProductServiceTest {
     @Test
     void saveNewProduct_SuccessfullySavesProduct() {
         //Arrange
-        Product product = new Product(
-                "Test",
-                "Test",
-                1.0,
-                "Test",
-                "Test"
-        );
+        Product product = Product.builder()
+                .name("Test")
+                .description("Test")
+                .price(1.0)
+                .category("Test")
+                .brand("Test")
+                .build();
 
         //Act
-        productService.addNewProduct(product);
+        productService.save(product);
 
         //Assert
         Assertions.assertThat(product).isNotNull();
@@ -45,25 +45,17 @@ class ProductServiceTest {
     @Test
     void getAll_ReturnMoreThanOneProduct() {
         //Arrange
-        Product product1 = new Product(
-                "Test",
-                "Test",
-                1.0,
-                "Test",
-                "Test"
-        );
+        Product product1 = Product.builder()
+                .name("Test1")
+                .build();
 
-        Product product2 = new Product(
-                "Test",
-                "Test",
-                1.0,
-                "Test",
-                "Test"
-        );
+        Product product2 = Product.builder()
+                .name("Test2")
+                .build();
 
         //Act
-        productService.addNewProduct(product1);
-        productService.addNewProduct(product2);
+        productService.save(product1);
+        productService.save(product2);
 
         //Assert
         assertTrue(productService.getAllProducts().size() > 1);
@@ -74,16 +66,12 @@ class ProductServiceTest {
     @Test
     void findProductById_ReturnProduct() {
         //Arrange
-        Product product = new Product(
-                "Test",
-                "Test",
-                1.0,
-                "Test",
-                "Test"
-        );
+        Product product = Product.builder()
+                .name("Test")
+                .build();
 
         //Act
-        productService.addNewProduct(product);
+        productService.save(product);
 
         //Assert
         Assertions.assertThat(productService.findProductById(product.getId())).isNotNull();
@@ -93,25 +81,17 @@ class ProductServiceTest {
     @Test
     void deleteAll_DeletesAllProducts() {
         //Arrange
-        Product product1 = new Product(
-                "Test",
-                "Test",
-                1.0,
-                "Test",
-                "Test"
-        );
+        Product product1 = Product.builder()
+                .name("product1")
+                .build();
 
-        Product product2 = new Product(
-                "Test",
-                "Test",
-                1.0,
-                "Test",
-                "Test"
-        );
+        Product product2 = Product.builder()
+                .name("product2")
+                .build();
 
         //Act
-        productService.addNewProduct(product1);
-        productService.addNewProduct(product2);
+        productService.save(product1);
+        productService.save(product2);
         productService.deleteAll();
 
         //Assert
@@ -122,28 +102,20 @@ class ProductServiceTest {
     @Test
     void verifyProductWithSameNameDoesNotGetAdded() {
         //Arrange
-        Product product1 = new Product(
-                "Test",
-                "Test",
-                1.0,
-                "Test",
-                "Test"
-        );
+        Product product1 = Product.builder()
+                .name("product1")
+                .build();
 
-        Product product2 = new Product(
-                "A product",
-                "Some Description",
-                1.0,
-                "Some category",
-                "N/A"
-        );
+        Product product2 = Product.builder()
+                .name("product2")
+                .build();
 
-        this.productService.addNewProduct(product1);
+        this.productService.save(product1);
 
         //Act
         boolean productWithSameNameExists = productService.doesProductExist(product2);
 
-        this.productService.addNewProduct(product2);
+        this.productService.save(product2);
 
         //Assert
         assertFalse(productWithSameNameExists);
@@ -152,16 +124,33 @@ class ProductServiceTest {
 
     @Test
     void productPriceNotNegative() {
-        Product product = new Product(
-                "A product",
-                "Some Description",
-                1,
-                "Some category",
-                "N/A"
-        );
+        //Arrange
+        Product product = Product.builder()
+                .price(1)
+                .build();
 
+        //Act
         double price = product.getPrice();
 
+        //Assert
         assertFalse(price < 0, "Price cannot be negative");
+    }
+
+    @Test
+    void getProductByNameNotNull() {
+        //Arrange
+        Product product = Product.builder()
+                .name("A Product")
+                .build();
+
+        productService.save(product);
+
+        //Act
+        Product tempProduct = productService.findByName("A Product"); //Object appears to be null here, why?
+
+        //Assert
+        Assertions.assertThat(tempProduct).isNotNull();
+        Assertions.assertThat(tempProduct.getId()).isEqualTo(product.getId());
+        Assertions.assertThat(tempProduct).isEqualTo(product);
     }
 }

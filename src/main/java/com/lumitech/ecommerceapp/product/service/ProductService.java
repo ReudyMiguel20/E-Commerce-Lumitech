@@ -7,13 +7,12 @@ import java.util.List;
 
 
 public interface ProductService {
-    void addNewProduct(Product product);
+    void save(Product product);
     Product convertToProduct(NewProduct newProduct);
     Product findProductById(Long id);
     boolean doesProductExist(Product product);
-
     boolean isProductNull(Product product);
-
     void deleteAll();
     List<Product> getAllProducts();
+    Product findByName(String productName);
 }
