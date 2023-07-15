@@ -2,6 +2,7 @@ package com.lumitech.ecommerceapp.product.model.entity;
 
 
 import jakarta.persistence.*;
+
 import java.util.Objects;
 
 /* Ideas for the product entity

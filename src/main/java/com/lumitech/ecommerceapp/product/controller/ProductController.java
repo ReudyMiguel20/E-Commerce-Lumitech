@@ -5,7 +5,6 @@ import com.lumitech.ecommerceapp.product.model.dto.NewProduct;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.service.ProductService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api")
 public class ProductController {
 
     private final ProductService productService;
@@ -24,13 +23,13 @@ public class ProductController {
     }
 
 
-    @GetMapping("/all")
+    @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok().body(this.productService.getAllProducts());
     }
 
 
-    @PostMapping("/new")
+    @PostMapping("/products")
     public ResponseEntity<?> storeNewProduct(@Valid @RequestBody NewProduct newProduct) {
         Product tempProduct = this.productService.convertToProduct(newProduct);
 
