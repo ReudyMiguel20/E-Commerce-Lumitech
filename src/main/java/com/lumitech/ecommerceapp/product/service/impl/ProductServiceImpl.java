@@ -1,6 +1,5 @@
 package com.lumitech.ecommerceapp.product.service.impl;
 
-import com.lumitech.ecommerceapp.product.exception.ControllerExceptionHandler;
 import com.lumitech.ecommerceapp.product.model.dto.NewProduct;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.repository.ProductRepository;
@@ -25,8 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product convertToProduct(NewProduct newProduct) {
-        return new Product(newProduct.getName(), newProduct.getDescription(), newProduct.getPrice(),
-                newProduct.getCategory(), newProduct.getBrand());
+        return new Product(newProduct.getName(), newProduct.getDescription(), newProduct.getPrice(), newProduct.getCategory(), newProduct.getBrand());
     }
 
     @Override
@@ -35,19 +33,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean productWithSameNameExists(Product product) {
-        return this.productRepository.findByName(product.getName()) != null;
+    public boolean doesProductExist(Product product) {
+        for (Product productInList : getAllProducts()) {
+            if (productInList.getName().equals(product.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public boolean productExists(Product product) {
-        // Need to verify this logic
-        if (productWithSameNameExists(product)) {
+    public boolean isProductNull(Product product) {
+        if (product == null) {
             return true;
-        } else {
-            ControllerExceptionHandler.handleProductExists();
         }
-        ControllerExceptionHandler.handleProductExists();
         return false;
     }
 

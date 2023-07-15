@@ -1,11 +1,12 @@
 package com.lumitech.ecommerceapp.product.controller;
 
 import com.lumitech.ecommerceapp.product.exception.ControllerExceptionHandler;
-import com.lumitech.ecommerceapp.product.exception.errors.ProductExistsException;
 import com.lumitech.ecommerceapp.product.model.dto.NewProduct;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.service.ProductService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,35 +16,38 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
+    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
 
-//    @GetMapping("/all")
-//    public ResponseEntity<List<Product>> getAllProducts() {
-//
-//    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok().body(this.productService.getAllProducts());
+    }
 
 
     @PostMapping("/new")
     public ResponseEntity<?> storeNewProduct(@Valid @RequestBody NewProduct newProduct) {
-        // I have a problem here, I don't know how to check if the item already exists on the database, maybe check name, maybe multiple fields, idk.
         Product tempProduct = this.productService.convertToProduct(newProduct);
 
-        //Checking if the product exists on the database
-        this.productService.productExists(tempProduct);
+        //Checking if the product exists and/or is null
+        boolean doesProductExist = this.productService.doesProductExist(tempProduct);
+        boolean isProductNull = this.productService.isProductNull(tempProduct);
 
-        // Return an exception here
-        if (tempProduct == null) {
+        if (doesProductExist) {
             return ControllerExceptionHandler.handleProductExists();
-        } else {
-            this.productService.addNewProduct(tempProduct);
-            return ResponseEntity.ok().body(tempProduct);
         }
+
+        if (isProductNull) {
+            return ControllerExceptionHandler.handleProductEmptyOrNull();
+        }
+
+        //Add the product to the database and return a JSON response of said product
+        this.productService.addNewProduct(tempProduct);
+        return ResponseEntity.ok().body(tempProduct);
     }
-
-
 }

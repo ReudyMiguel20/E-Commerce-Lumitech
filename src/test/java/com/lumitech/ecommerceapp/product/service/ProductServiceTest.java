@@ -1,6 +1,5 @@
 package com.lumitech.ecommerceapp.product.service;
 
-import com.lumitech.ecommerceapp.product.model.dto.NewProduct;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -40,7 +39,7 @@ class ProductServiceTest {
 
         //Assert
         Assertions.assertThat(product).isNotNull();
-        assertTrue(productService.productExists(product));
+        assertEquals(product, productService.findProductById(product.getId()));
     }
 
     @Test
@@ -121,25 +120,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void productExists_ReturnTrue() {
-        //Arrange
-        Product product = new Product(
-                "Test",
-                "Test",
-                1.0,
-                "Test",
-                "Test"
-        );
-
-        //Act
-        productService.addNewProduct(product);
-
-        //Assert
-        assertTrue(productService.productExists(product));
-    }
-
-    @Test
-    void findByName_VerifyingProductSameNameDontGetAdded() {
+    void verifyProductWithSameNameDoesNotGetAdded() {
         //Arrange
         Product product1 = new Product(
                 "Test",
@@ -158,14 +139,15 @@ class ProductServiceTest {
         );
 
         this.productService.addNewProduct(product1);
-        this.productService.addNewProduct(product2);
 
         //Act
-        Product foundProduct = this.productService.findProductById(product2.getId());
+        boolean productWithSameNameExists = productService.doesProductExist(product2);
+
+        this.productService.addNewProduct(product2);
 
         //Assert
-        assertNotNull(foundProduct);
-        assertEquals("A product", foundProduct.getName());
+        assertFalse(productWithSameNameExists);
+        Assertions.assertThat(product2).isNotNull();
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.lumitech.ecommerceapp.product.exception;
 
 
 import com.lumitech.ecommerceapp.product.exception.errors.ProductExistsException;
+import com.lumitech.ecommerceapp.product.exception.errors.ProductIsEmptyOrNull;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class ControllerExceptionHandler {
 
 
-    //Need to check the output in postman of this, fix this tomorrow
+
     @ExceptionHandler(ProductExistsException.class)
     public static ResponseEntity<CustomErrorMessage> handleProductExists() {
     /* This is also a good way to get the path, it is more abstract and requires a WebRequest object on the PARAMETER of the METHOD,
@@ -31,6 +32,21 @@ public class ControllerExceptionHandler {
                 "Bad Request",
                 "Item already exists",
                  path
+        );
+        return ResponseEntity.badRequest().body(customErrorMessage);
+    }
+
+    @ExceptionHandler(ProductIsEmptyOrNull.class)
+    public static ResponseEntity<CustomErrorMessage> handleProductEmptyOrNull() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                400,
+                "Bad Request",
+                "Is Empty or Null",
+                path
         );
         return ResponseEntity.badRequest().body(customErrorMessage);
     }
