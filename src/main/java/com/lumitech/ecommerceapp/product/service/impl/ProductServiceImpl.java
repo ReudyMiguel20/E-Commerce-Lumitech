@@ -40,12 +40,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean doesProductExist(Product product) {
-        for (Product productInList : getAllProducts()) {
-            if (productInList.getName().equals(product.getName())) {
-                return true;
-            }
-        }
-        return false;
+        return getAllProducts().stream()
+                .anyMatch(productInList -> productInList.getName().equals(product.getName()));
     }
 
     @Override

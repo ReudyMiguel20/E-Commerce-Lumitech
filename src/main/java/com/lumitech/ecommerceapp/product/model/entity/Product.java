@@ -2,6 +2,7 @@ package com.lumitech.ecommerceapp.product.model.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Objects;
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "products")
 @Builder
+@NotNull
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

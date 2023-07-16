@@ -33,6 +33,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.28'
     testCompileOnly 'org.projectlombok:lombok:1.18.28'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.4.0'
+
 }
 
 tasks.named('test') {
