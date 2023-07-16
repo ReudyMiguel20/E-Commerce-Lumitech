@@ -8,12 +8,22 @@ import java.util.List;
 
 public interface ProductService {
     void save(Product product);
+
     Product convertToProduct(ProductDTO productDTO);
+
     Product findProductById(Long id);
+
     boolean doesProductExist(Product product);
+
     boolean isProductNull(Product product);
+
     void deleteAll();
+
     List<Product> getAllProducts();
+
     Product findByName(String productName);
-    Product updateProductInfo(Long id, ProductDTO newProductInfo);
+
+    Product processUpdateProduct(Long id, ProductDTO newProductInfo);
+
+    Product updateProductInfo(Product oldProduct, Product newProduct);
 }
