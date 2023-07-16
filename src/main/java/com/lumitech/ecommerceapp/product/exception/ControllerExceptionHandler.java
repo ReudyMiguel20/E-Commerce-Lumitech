@@ -1,8 +1,10 @@
 package com.lumitech.ecommerceapp.product.exception;
 
 
+import com.lumitech.ecommerceapp.product.exception.errors.ProductDoesntExists;
 import com.lumitech.ecommerceapp.product.exception.errors.ProductExistsException;
 import com.lumitech.ecommerceapp.product.exception.errors.ProductIsEmptyOrNull;
+import com.lumitech.ecommerceapp.product.exception.errors.ProductsAreEquals;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -69,6 +71,38 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 400,
                 "Bad Request",
                 "Is Empty or Null",
+                path
+        );
+        return ResponseEntity.badRequest().body(customErrorMessage);
+    }
+
+    @ExceptionHandler(ProductDoesntExists.class)
+    public static ResponseEntity<CustomErrorMessage> handleProductDoesntExists() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                404,
+                "Not Found",
+                "Product with that ID doesn't exists",
+                path
+        );
+        return ResponseEntity.badRequest().body(customErrorMessage);
+    }
+
+    @ExceptionHandler(ProductsAreEquals.class)
+    public static ResponseEntity<CustomErrorMessage> handleProductsAreEquals() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                400,
+                "Bad Request",
+                "Product are equals, no need to update",
                 path
         );
         return ResponseEntity.badRequest().body(customErrorMessage);

@@ -1,5 +1,7 @@
 package com.lumitech.ecommerceapp.product.service;
 
+import com.lumitech.ecommerceapp.product.exception.errors.ProductsAreEquals;
+import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.service.impl.ProductServiceImpl;
 import org.assertj.core.api.Assert;
@@ -183,23 +185,6 @@ class ProductServiceImplTest {
         Assertions.assertThat(tempProduct).isEqualTo(product);
     }
 
-//    @Test
-//    void getProductBySpecifyingId() {
-//        //Arrange
-//        Product product = Product.builder()
-//                .name("product")
-//                .description("test")
-//                .price(1)
-//                .category("test")
-//                .brand("test")
-//                .build();
-//
-//        //Act
-//        Product tempProduct = productService.findProductById(1L);
-//
-//        //Arrange
-//    }
-
     @Test
     void updateProductBySpecifyingId() {
         //Arrange
@@ -211,15 +196,18 @@ class ProductServiceImplTest {
                 .brand("test")
                 .build();
 
+        ProductDTO productDTO = ProductDTO.builder()
+                .name("product")
+                .description("test1")
+                .price(1)
+                .category("test")
+                .brand("test")
+                .build();
+
         productService.save(productOne);
-        Product productTwo = productService.findProductById(productOne.getId());
 
         //Act
-        productTwo.setName("product");
-        productTwo.setDescription("test1");
-        productTwo.setPrice(1);
-        productTwo.setCategory("test");
-        productTwo.setBrand("test");
+        Product productTwo = productService.updateProductInfo(productOne.getId(), productDTO);
 
         //Assert
         Assertions.assertThat(productTwo)

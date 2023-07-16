@@ -1,7 +1,5 @@
 package com.lumitech.ecommerceapp.product.model.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -17,7 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class NewProduct {
+public class ProductDTO {
 
     @NotEmpty(message = "Name cannot be empty")
     @NotBlank(message = "Name cannot be blank")
@@ -41,7 +39,7 @@ public class NewProduct {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        NewProduct that = (NewProduct) o;
+        ProductDTO that = (ProductDTO) o;
         return Double.compare(that.price, price) == 0 && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(category, that.category) && Objects.equals(brand, that.brand);
     }
 
