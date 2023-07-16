@@ -1,6 +1,8 @@
 package com.lumitech.ecommerceapp.product.service.impl;
 
-import com.lumitech.ecommerceapp.product.exception.errors.ProductsAreEquals;
+import com.lumitech.ecommerceapp.product.exception.errors.ProductDoesntExistsException;
+import com.lumitech.ecommerceapp.product.exception.errors.ProductsAreEqualsException;
+import com.lumitech.ecommerceapp.product.exception.errors.UpdateValuesSameAsExistingProductException;
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.repository.ProductRepository;
@@ -8,6 +10,7 @@ import com.lumitech.ecommerceapp.product.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -36,14 +39,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findProductById(Long id) {
-        return this.productRepository.findById(id).orElse(null);
+        return this.productRepository.findById(id)
+                .orElseThrow(() -> new ProductDoesntExistsException());
     }
 
     @Override
     public boolean doesProductExist(Product product) {
-        return getAllProducts().stream()
-                .anyMatch(productInList -> productInList.getName().equals(product.getName()));
+        return this.productRepository.findByName(product.getName()).isPresent();
     }
+
+//    public void doesProductExist(Product product) {
+//        if (this.productRepository.findByName(product.getName()).isEmpty()) {
+//            throw new ProductDoesntExists();
+//        }
+//    }
 
     @Override
     public boolean isProductNull(Product product) {
@@ -60,35 +69,59 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepository.findAll();
     }
 
+    //This method doesn't work the same as the one in the Repository, just a reminder
     @Override
     public Product findByName(String productName) {
         return this.productRepository.findByName(productName)
-                .orElse(null);
+                .orElseThrow(() -> new ProductDoesntExistsException());
     }
 
     @Override
-    public Product updateProductInfo(Long id, ProductDTO newProductInfo) {
+    public Product processUpdateProduct(Long id, ProductDTO newProductInfo) {
+        //Converting the DTO to a Product Object and sets its id, this is to compare if they are equal
         Product productWithNewInfo = convertToProduct(newProductInfo);
         productWithNewInfo.setId(id);
 
+        //Find the product which is going to be updated
         Product productToUpdate = findProductById(id);
 
         if (productWithNewInfo.equals(productToUpdate)) {
-           throw new ProductsAreEquals();
+           throw new ProductsAreEqualsException();
         }
 
         if (productToUpdate == null) {
             return null;
         }
 
-        productToUpdate.setName(newProductInfo.getName());
-        productToUpdate.setDescription(newProductInfo.getDescription());
-        productToUpdate.setPrice(newProductInfo.getPrice());
-        productToUpdate.setCategory(newProductInfo.getCategory());
-        productToUpdate.setBrand(newProductInfo.getBrand());
+        //Updating values
+        Product updatedProduct = updateProductInfo(productToUpdate, productWithNewInfo);
 
+        //Verify that a product with the same values doesn't exist before persisting the product to database
+        verifyUpdatedProductExistence(updatedProduct);
 
-        save(productToUpdate);
+        return updatedProduct;
+    }
+
+    @Override
+    public Product updateProductInfo(Product productToUpdate, Product productWithNewInfo) {
+        productToUpdate.setName(productWithNewInfo.getName());
+        productToUpdate.setDescription(productWithNewInfo.getDescription());
+        productToUpdate.setPrice(productWithNewInfo.getPrice());
+        productToUpdate.setCategory(productWithNewInfo.getCategory());
+        productToUpdate.setBrand(productWithNewInfo.getBrand());
+
         return productToUpdate;
+    }
+
+    public void verifyUpdatedProductExistence(Product updatedProduct) {
+        //Looking in the database if a product with the same name exists
+        Optional<Product> productWithSameName = this.productRepository.findByName(updatedProduct.getName());
+
+        //Conditionals here
+        if (productWithSameName.isEmpty()) {
+            save(updatedProduct);
+        } else if (productWithSameName.get().equals(updatedProduct)) {
+            throw new UpdateValuesSameAsExistingProductException();
+        }
     }
 }

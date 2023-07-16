@@ -32,20 +32,16 @@ public class ProductController {
     public ResponseEntity<?> getSpecificProductById(@PathVariable Long id) {
         Product product = this.productService.findProductById(id);
 
-        if (product == null) {
-            return ControllerExceptionHandler.handleProductDoesntExists();
-        }
-
         return ResponseEntity.ok().body(product);
     }
 
     @PostMapping("/products")
     public ResponseEntity<?> storeNewProduct(@Valid @RequestBody ProductDTO productDTO) {
-        Product product = this.productService.convertToProduct(productDTO);
+        Product newProduct = this.productService.convertToProduct(productDTO);
 
         //Checking if the product exists and/or is null
-        boolean doesProductExist = this.productService.doesProductExist(product);
-        boolean isProductNull = this.productService.isProductNull(product);
+        boolean doesProductExist = this.productService.doesProductExist(newProduct);
+        boolean isProductNull = this.productService.isProductNull(newProduct);
 
         if (doesProductExist) {
             return ControllerExceptionHandler.handleProductExists();
@@ -56,13 +52,13 @@ public class ProductController {
         }
 
         //Add the product to the database and return a JSON response of said product
-        this.productService.save(product);
-        return ResponseEntity.ok().body(product);
+        this.productService.save(newProduct);
+        return ResponseEntity.ok().body(newProduct);
     }
 
     @PutMapping("/products/{id}")
     public ResponseEntity<?> updateExistingProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO newProductInfo) {
-        Product updatedProduct = this.productService.updateProductInfo(id, newProductInfo);
+        Product updatedProduct = this.productService.processUpdateProduct(id, newProductInfo);
 
         if (updatedProduct == null) {
             return ControllerExceptionHandler.handleProductEmptyOrNull();

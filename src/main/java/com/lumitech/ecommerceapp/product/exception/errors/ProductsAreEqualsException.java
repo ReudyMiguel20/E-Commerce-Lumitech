@@ -4,24 +4,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Product are equals, no need to update")
-public class ProductsAreEquals extends RuntimeException{
+public class ProductsAreEqualsException extends RuntimeException{
 
-    public ProductsAreEquals() {
+    public ProductsAreEqualsException() {
     }
 
-    public ProductsAreEquals(String message) {
+    public ProductsAreEqualsException(String message) {
         super(message);
     }
 
-    public ProductsAreEquals(String message, Throwable cause) {
+    public ProductsAreEqualsException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ProductsAreEquals(Throwable cause) {
+    public ProductsAreEqualsException(Throwable cause) {
         super(cause);
     }
 
-    public ProductsAreEquals(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public ProductsAreEqualsException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

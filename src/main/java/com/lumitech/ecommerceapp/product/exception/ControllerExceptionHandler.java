@@ -1,10 +1,7 @@
 package com.lumitech.ecommerceapp.product.exception;
 
 
-import com.lumitech.ecommerceapp.product.exception.errors.ProductDoesntExists;
-import com.lumitech.ecommerceapp.product.exception.errors.ProductExistsException;
-import com.lumitech.ecommerceapp.product.exception.errors.ProductIsEmptyOrNull;
-import com.lumitech.ecommerceapp.product.exception.errors.ProductsAreEquals;
+import com.lumitech.ecommerceapp.product.exception.errors.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -60,7 +57,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(customErrorMessage);
     }
 
-    @ExceptionHandler(ProductIsEmptyOrNull.class)
+    @ExceptionHandler(ProductIsEmptyOrNullException.class)
     public static ResponseEntity<CustomErrorMessage> handleProductEmptyOrNull() {
         //Initializing the HttpServletRequest object to get the path of the request that caused the error.
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -76,7 +73,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(customErrorMessage);
     }
 
-    @ExceptionHandler(ProductDoesntExists.class)
+    @ExceptionHandler(ProductDoesntExistsException.class)
     public static ResponseEntity<CustomErrorMessage> handleProductDoesntExists() {
         //Initializing the HttpServletRequest object to get the path of the request that caused the error.
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -92,7 +89,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(customErrorMessage);
     }
 
-    @ExceptionHandler(ProductsAreEquals.class)
+    @ExceptionHandler(ProductsAreEqualsException.class)
     public static ResponseEntity<CustomErrorMessage> handleProductsAreEquals() {
         //Initializing the HttpServletRequest object to get the path of the request that caused the error.
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -103,6 +100,22 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 400,
                 "Bad Request",
                 "Product are equals, no need to update",
+                path
+        );
+        return ResponseEntity.badRequest().body(customErrorMessage);
+    }
+
+    @ExceptionHandler(UpdateValuesSameAsExistingProductException.class)
+    public static ResponseEntity<CustomErrorMessage> handleUpdateValuesSameAsExistingProduct() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                400,
+                "Bad Request",
+                "Update values are the same as an already existing product",
                 path
         );
         return ResponseEntity.badRequest().body(customErrorMessage);

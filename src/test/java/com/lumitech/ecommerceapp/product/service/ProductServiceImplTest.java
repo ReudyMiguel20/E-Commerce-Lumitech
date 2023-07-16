@@ -1,10 +1,8 @@
 package com.lumitech.ecommerceapp.product.service;
 
-import com.lumitech.ecommerceapp.product.exception.errors.ProductsAreEquals;
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.service.impl.ProductServiceImpl;
-import org.assertj.core.api.Assert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -125,11 +121,19 @@ class ProductServiceImplTest {
     void verifyProductWithSameNameDoesNotGetAdded() {
         //Arrange
         Product product1 = Product.builder()
-                .name("product1")
+                .name("Test")
+                .description("Test")
+                .price(1.0)
+                .category("Test")
+                .brand("Test")
                 .build();
 
         Product product2 = Product.builder()
-                .name("product2")
+                .name("Test2")
+                .description("Tes2")
+                .price(1.0)
+                .category("Test2")
+                .brand("Test2")
                 .build();
 
         this.productService.save(product1);
@@ -207,7 +211,7 @@ class ProductServiceImplTest {
         productService.save(productOne);
 
         //Act
-        Product productTwo = productService.updateProductInfo(productOne.getId(), productDTO);
+        Product productTwo = productService.processUpdateProduct(productOne.getId(), productDTO);
 
         //Assert
         Assertions.assertThat(productTwo)
