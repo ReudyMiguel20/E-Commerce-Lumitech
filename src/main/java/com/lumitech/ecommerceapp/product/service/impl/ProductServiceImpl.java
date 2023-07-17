@@ -22,9 +22,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void save(Product product) {
+    public void saveProduct(Product product) {
         this.productRepository.save(product);
     }
+
+    @Override
+    public Product saveAndReturnProduct(Product product) {
+        return this.productRepository.save(product);
+    }
+
+//    @Override
+//    public Product createNewProduct(ProductDTO productDto) {
+//        Product newProduct = convertToProduct(productDto);
+//
+//        saveProduct(newProduct);
+//
+//        return newProduct;
+//    }
 
     @Override
     public Product convertToProduct(ProductDTO productDTO) {
@@ -119,7 +133,7 @@ public class ProductServiceImpl implements ProductService {
 
         //Conditionals here
         if (productWithSameName.isEmpty()) {
-            save(updatedProduct);
+            saveProduct(updatedProduct);
         } else if (productWithSameName.get().equals(updatedProduct)) {
             throw new UpdateValuesSameAsExistingProductException();
         }
