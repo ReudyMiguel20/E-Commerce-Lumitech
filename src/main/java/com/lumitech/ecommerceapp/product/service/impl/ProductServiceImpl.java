@@ -11,6 +11,7 @@ import com.lumitech.ecommerceapp.product.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -132,10 +133,11 @@ public class ProductServiceImpl implements ProductService {
         //Looking in the database if a product with the same name exists
         Optional<Product> productWithSameName = this.productRepository.findByName(updatedProduct.getName());
 
-        //Conditionals here
+        //Remember that above is going to return if it's empty. So the optional is going to handle if the product
+        //is null as empty
         if (productWithSameName.isEmpty()) {
             saveProduct(updatedProduct);
-        } else if (productWithSameName.get().equals(updatedProduct)) {
+        } else if (Objects.equals(productWithSameName.get(), updatedProduct)) {
             throw new UpdateValuesSameAsExistingProductException();
         }
     }
