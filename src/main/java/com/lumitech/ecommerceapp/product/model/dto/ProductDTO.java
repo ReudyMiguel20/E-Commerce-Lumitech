@@ -21,6 +21,7 @@ public class ProductDTO {
     @NotBlank(message = "Name cannot be blank")
     private String name;
 
+    @NotEmpty(message = "Name cannot be empty")
     @NotBlank(message = "Description cannot be empty")
     private String description;
 

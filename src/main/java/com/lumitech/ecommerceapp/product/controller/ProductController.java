@@ -29,41 +29,22 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<?> getSpecificProductById(@PathVariable Long id) {
+    public ResponseEntity<Product> getSpecificProductById(@PathVariable Long id) {
         Product product = this.productService.findProductById(id);
-
         return ResponseEntity.ok().body(product);
     }
 
     @PostMapping("/products")
-    public ResponseEntity<?> storeNewProduct(@Valid @RequestBody ProductDTO productDTO) {
-        Product newProduct = this.productService.convertToProduct(productDTO);
-
-        //Checking if the product exists and/or is null
-        boolean doesProductExist = this.productService.doesProductExist(newProduct);
-        boolean isProductNull = this.productService.isProductNull(newProduct);
-
-        if (doesProductExist) {
-            return ControllerExceptionHandler.handleProductExists();
-        }
-
-        if (isProductNull) {
-            return ControllerExceptionHandler.handleProductEmptyOrNull();
-        }
-
-        //Add the product to the database and return a JSON response of said product
-        this.productService.saveProduct(newProduct);
-        return ResponseEntity.ok().body(newProduct);
+    public ResponseEntity<Product> storeNewProduct(@Valid @RequestBody ProductDTO productDTO) {
+        Product newProduct = this.productService.createNewProduct(productDTO);
+        return ResponseEntity.status(201).body(newProduct);
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<?> updateExistingProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO newProductInfo) {
+    public ResponseEntity<Product> updateExistingProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO newProductInfo) {
         Product updatedProduct = this.productService.processUpdateProduct(id, newProductInfo);
-
-        if (updatedProduct == null) {
-            return ControllerExceptionHandler.handleProductEmptyOrNull();
-        }
-
         return ResponseEntity.ok().body(updatedProduct);
     }
 }
+
+

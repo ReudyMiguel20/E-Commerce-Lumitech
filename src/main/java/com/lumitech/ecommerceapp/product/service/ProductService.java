@@ -2,11 +2,14 @@ package com.lumitech.ecommerceapp.product.service;
 
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 
 public interface ProductService {
+    Product createNewProduct(ProductDTO productDTO);
+
     void saveProduct(Product product);
 
     Product saveAndReturnProduct(Product product);

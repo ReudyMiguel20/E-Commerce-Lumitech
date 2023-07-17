@@ -1,6 +1,7 @@
 package com.lumitech.ecommerceapp.product.service.impl;
 
 import com.lumitech.ecommerceapp.product.exception.errors.ProductDoesntExistsException;
+import com.lumitech.ecommerceapp.product.exception.errors.ProductExistsException;
 import com.lumitech.ecommerceapp.product.exception.errors.ProductsAreEqualsException;
 import com.lumitech.ecommerceapp.product.exception.errors.UpdateValuesSameAsExistingProductException;
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
@@ -22,6 +23,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product createNewProduct(ProductDTO productDTO) {
+        Product newProduct = convertToProduct(productDTO);
+
+        //Checking if the product exists and/or is null
+        boolean doesProductExist = doesProductExist(newProduct);
+        if (doesProductExist) {
+            throw new ProductExistsException();
+        }
+
+        return saveAndReturnProduct(newProduct);
+    }
+
+    @Override
     public void saveProduct(Product product) {
         this.productRepository.save(product);
     }
@@ -30,15 +44,6 @@ public class ProductServiceImpl implements ProductService {
     public Product saveAndReturnProduct(Product product) {
         return this.productRepository.save(product);
     }
-
-//    @Override
-//    public Product createNewProduct(ProductDTO productDto) {
-//        Product newProduct = convertToProduct(productDto);
-//
-//        saveProduct(newProduct);
-//
-//        return newProduct;
-//    }
 
     @Override
     public Product convertToProduct(ProductDTO productDTO) {
@@ -101,10 +106,6 @@ public class ProductServiceImpl implements ProductService {
 
         if (productWithNewInfo.equals(productToUpdate)) {
            throw new ProductsAreEqualsException();
-        }
-
-        if (productToUpdate == null) {
-            return null;
         }
 
         //Updating values
