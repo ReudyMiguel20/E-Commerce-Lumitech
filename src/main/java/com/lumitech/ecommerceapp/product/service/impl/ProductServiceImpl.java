@@ -68,12 +68,6 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepository.findByName(product.getName()).isPresent();
     }
 
-//    public void doesProductExist(Product product) {
-//        if (this.productRepository.findByName(product.getName()).isEmpty()) {
-//            throw new ProductDoesntExists();
-//        }
-//    }
-
     @Override
     public boolean isProductNull(Product product) {
         return product == null;
@@ -96,17 +90,25 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ProductDoesntExistsException());
     }
 
+
+    /**
+     * Processes the update of a product with the provided information.
+     *
+     * @param id             The ID of the product to update.
+     * @param newProductInfo The updated product information as a DTO.
+     * @return updatedProduct The updated product after the update process.
+     * @throws ProductsAreEqualsException if the updated product information is equal to the existing product.
+     */
     @Override
     public Product processUpdateProduct(Long id, ProductDTO newProductInfo) {
         //Converting the DTO to a Product Object and sets its id, this is to compare if they are equal
         Product productWithNewInfo = convertToProduct(newProductInfo);
         productWithNewInfo.setId(id);
 
-        //Find the product which is going to be updated
         Product productToUpdate = findProductById(id);
 
-        if (productWithNewInfo.equals(productToUpdate)) {
-           throw new ProductsAreEqualsException();
+        if (Objects.equals(productWithNewInfo, productToUpdate)) {
+            throw new ProductsAreEqualsException();
         }
 
         //Updating values
@@ -118,6 +120,13 @@ public class ProductServiceImpl implements ProductService {
         return updatedProduct;
     }
 
+    /**
+     * Updates the information of a product with new information.
+     *
+     * @param productToUpdate    - Product which is going to be updated (Old info)
+     * @param productWithNewInfo - Product with the updated info (New Info)
+     * @return productToUpdate - returns the old product updated with the new info
+     */
     @Override
     public Product updateProductInfo(Product productToUpdate, Product productWithNewInfo) {
         productToUpdate.setName(productWithNewInfo.getName());
@@ -128,13 +137,13 @@ public class ProductServiceImpl implements ProductService {
 
         return productToUpdate;
     }
-
+    
     public void verifyUpdatedProductExistence(Product updatedProduct) {
         //Looking in the database if a product with the same name exists
         Optional<Product> productWithSameName = this.productRepository.findByName(updatedProduct.getName());
 
-        //Remember that above is going to return if it's empty. So the optional is going to handle if the product
-        //is null as empty
+        /* Remember that above is going to return if it's empty. So the optional is going to handle
+           if the product is null as empty */
         if (productWithSameName.isEmpty()) {
             saveProduct(updatedProduct);
         } else if (Objects.equals(productWithSameName.get(), updatedProduct)) {
