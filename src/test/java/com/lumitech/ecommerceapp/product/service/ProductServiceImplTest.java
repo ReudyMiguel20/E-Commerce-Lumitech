@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-@ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 
     @Autowired
@@ -40,7 +39,7 @@ class ProductServiceImplTest {
                 .build();
 
         //Act
-        productService.save(product);
+        productService.saveProduct(product);
 
         //Assert
         Assertions.assertThat(product)
@@ -65,8 +64,8 @@ class ProductServiceImplTest {
                 .build();
 
         //Act
-        productService.save(product1);
-        productService.save(product2);
+        productService.saveProduct(product1);
+        productService.saveProduct(product2);
 
         //Assert
         Assertions.assertThat(productService.getAllProducts().size()).as("Does not contain the correct number of products").isGreaterThan(1);
@@ -82,7 +81,7 @@ class ProductServiceImplTest {
                 .build();
 
         //Act
-        productService.save(product);
+        productService.saveProduct(product);
 
         //Assert
         Assertions.assertThat(productService.findProductById(product.getId())).as("Product is null").isNotNull();
@@ -102,8 +101,8 @@ class ProductServiceImplTest {
                 .build();
 
         //Act
-        productService.save(product1);
-        productService.save(product2);
+        productService.saveProduct(product1);
+        productService.saveProduct(product2);
         productService.deleteAll();
 
         //Assert
@@ -136,12 +135,12 @@ class ProductServiceImplTest {
                 .brand("Test2")
                 .build();
 
-        this.productService.save(product1);
+        this.productService.saveProduct(product1);
 
         //Act
         boolean productWithSameNameExists = productService.doesProductExist(product2);
 
-        this.productService.save(product2);
+        this.productService.saveProduct(product2);
 
         //Assert
         Assertions.assertThat(productWithSameNameExists)
@@ -178,7 +177,7 @@ class ProductServiceImplTest {
                 .name("A Product")
                 .build();
 
-        productService.save(product);
+        productService.saveProduct(product);
 
         //Act
         Product tempProduct = productService.findByName("A Product");
@@ -189,6 +188,7 @@ class ProductServiceImplTest {
         Assertions.assertThat(tempProduct).isEqualTo(product);
     }
 
+    //Write a name for this test
     @Test
     void updateProductBySpecifyingId() {
         //Arrange
@@ -208,7 +208,7 @@ class ProductServiceImplTest {
                 .brand("test")
                 .build();
 
-        productService.save(productOne);
+        productService.saveProduct(productOne);
 
         //Act
         Product productTwo = productService.processUpdateProduct(productOne.getId(), productDTO);

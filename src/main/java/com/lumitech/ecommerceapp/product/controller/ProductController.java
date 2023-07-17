@@ -52,7 +52,7 @@ public class ProductController {
         }
 
         //Add the product to the database and return a JSON response of said product
-        this.productService.save(newProduct);
+        this.productService.saveProduct(newProduct);
         return ResponseEntity.ok().body(newProduct);
     }
 

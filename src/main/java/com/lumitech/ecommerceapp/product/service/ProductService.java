@@ -7,7 +7,9 @@ import java.util.List;
 
 
 public interface ProductService {
-    void save(Product product);
+    void saveProduct(Product product);
+
+    Product saveAndReturnProduct(Product product);
 
     Product convertToProduct(ProductDTO productDTO);
 
