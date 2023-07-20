@@ -2,7 +2,6 @@ package com.lumitech.ecommerceapp.product.service;
 
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -26,9 +25,15 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
-    Product findByName(String productName);
+    Product findByNameIgnoreCase(String productName);
 
     Product processUpdateProduct(Long id, ProductDTO newProductInfo);
 
     Product updateProductInfo(Product oldProduct, Product newProduct);
+
+    void verifyUpdatedProductExistence(Product updatedProduct);
+
+    void deleteProduct(Product productToBeDeleted);
+
+    void deleteProductById(Long idProductToBeDeleted);
 }

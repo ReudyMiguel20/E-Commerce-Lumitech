@@ -83,7 +83,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now(),
                 404,
                 "Not Found",
-                "Product with that ID doesn't exists",
+                "Product with that ID or Name doesn't exist",
                 path
         );
         return ResponseEntity.badRequest().body(customErrorMessage);

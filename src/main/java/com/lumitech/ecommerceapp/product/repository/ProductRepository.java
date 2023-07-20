@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long>,
     PagingAndSortingRepository<Product, Long> {
 
-    Optional<Product> findByName(String name);
+    Optional<Product> findByNameIgnoreCase(String name);
 }

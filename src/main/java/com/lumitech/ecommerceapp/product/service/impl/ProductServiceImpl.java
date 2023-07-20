@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean doesProductExist(Product product) {
-        return this.productRepository.findByName(product.getName()).isPresent();
+        return this.productRepository.findByNameIgnoreCase(product.getName()).isPresent();
     }
 
     @Override
@@ -85,8 +85,8 @@ public class ProductServiceImpl implements ProductService {
 
     //This method doesn't work the same as the one in the Repository, just a reminder
     @Override
-    public Product findByName(String productName) {
-        return this.productRepository.findByName(productName)
+    public Product findByNameIgnoreCase(String productName) {
+        return this.productRepository.findByNameIgnoreCase(productName)
                 .orElseThrow(() -> new ProductDoesntExistsException());
     }
 
@@ -137,10 +137,11 @@ public class ProductServiceImpl implements ProductService {
 
         return productToUpdate;
     }
-    
+
+    @Override
     public void verifyUpdatedProductExistence(Product updatedProduct) {
         //Looking in the database if a product with the same name exists
-        Optional<Product> productWithSameName = this.productRepository.findByName(updatedProduct.getName());
+        Optional<Product> productWithSameName = this.productRepository.findByNameIgnoreCase(updatedProduct.getName());
 
         /* Remember that above is going to return if it's empty. So the optional is going to handle
            if the product is null as empty */
@@ -149,5 +150,15 @@ public class ProductServiceImpl implements ProductService {
         } else if (Objects.equals(productWithSameName.get(), updatedProduct)) {
             throw new UpdateValuesSameAsExistingProductException();
         }
+    }
+
+    @Override
+    public void deleteProduct(Product productToBeDeleted) {
+        this.productRepository.delete(productToBeDeleted);
+    }
+
+    @Override
+    public void deleteProductById(Long idProductToBeDeleted) {
+        this.productRepository.deleteById(idProductToBeDeleted);
     }
 }

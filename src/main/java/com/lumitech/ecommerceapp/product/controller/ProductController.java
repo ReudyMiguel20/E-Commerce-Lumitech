@@ -1,6 +1,5 @@
 package com.lumitech.ecommerceapp.product.controller;
 
-import com.lumitech.ecommerceapp.product.exception.ControllerExceptionHandler;
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.service.ProductService;
@@ -44,6 +43,20 @@ public class ProductController {
     public ResponseEntity<Product> updateExistingProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO newProductInfo) {
         Product updatedProduct = this.productService.processUpdateProduct(id, newProductInfo);
         return ResponseEntity.ok().body(updatedProduct);
+    }
+
+    @DeleteMapping("/products")
+    public ResponseEntity<Product> deleteProductByName(@RequestParam(value = "name") String productNameToDelete) {
+        Product productToDelete = productService.findByNameIgnoreCase(productNameToDelete);
+        productService.deleteProduct(productToDelete);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<Product> deleteProductById(@PathVariable long id) {
+        Product productToDelete = productService.findProductById(id);
+        productService.deleteProduct(productToDelete);
+        return ResponseEntity.noContent().build();
     }
 }
 

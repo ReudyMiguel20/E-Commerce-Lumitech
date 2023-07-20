@@ -7,8 +7,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -180,7 +178,7 @@ class ProductServiceImplTest {
         productService.saveProduct(product);
 
         //Act
-        Product tempProduct = productService.findByName("A Product");
+        Product tempProduct = productService.findByNameIgnoreCase("A Product");
 
         //Assert
         Assertions.assertThat(tempProduct).isNotNull();
@@ -225,5 +223,102 @@ class ProductServiceImplTest {
         Assertions.assertThat(productTwo.getPrice())
                 .as("Product cannot be negative")
                 .isGreaterThanOrEqualTo(1L);
+    }
+
+    @Test
+    void deletingProductByName() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("samsung 10")
+                .description("test")
+                .price(1)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("dont delete me")
+                .description("test")
+                .price(1)
+                .category("test")
+                .brand("test")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+
+        //Checking if the product exists by giving a name
+        String productNameToDelete = "Samsung 10";
+        Product productToDelete = productService.findByNameIgnoreCase(productNameToDelete);
+
+        //Act
+        productService.deleteProduct(productToDelete);
+
+        //Assert
+        Assertions.assertThat(productNameToDelete.toLowerCase())
+                .as("The product to delete doesn't match any of the existing products")
+                .isEqualTo(productToDelete.getName().toLowerCase());
+
+        Assertions.assertThat(productToDelete)
+                .as("Product is null")
+                .isNotNull();
+
+        Assertions.assertThat(productService.getAllProducts())
+                .as("Product wasn't deleted from the list")
+                .doesNotContain(productToDelete);
+
+        Assertions.assertThat(productService.getAllProducts())
+                .as("The list shouldn't be null, there should be values on the list")
+                .isNotNull();
+
+        Assertions.assertThat(productService.getAllProducts())
+                .as("The list shouldn't be empty, there should be products on the list")
+                .isNotEmpty();
+    }
+
+    @Test
+    void deleteProductById() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("samsung 10")
+                .description("test")
+                .price(1)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("dont delete me")
+                .description("test")
+                .price(1)
+                .category("test")
+                .brand("test")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+
+        Product productToDelete = productService.findProductById(productOne.getId());
+
+        //Act
+        productService.deleteProduct(productToDelete);
+
+        Assertions.assertThat(productOne.getName().toLowerCase())
+                .as("The product to delete doesn't match any of the existing products")
+                .isEqualTo(productToDelete.getName().toLowerCase());
+
+        Assertions.assertThat(productToDelete)
+                .as("Product is null")
+                .isNotNull();
+
+        Assertions.assertThat(productService.getAllProducts())
+                .as("Product wasn't deleted from the list")
+                .doesNotContain(productToDelete);
+
+        Assertions.assertThat(productService.getAllProducts())
+                .as("The list shouldn't be null, there should be values on the list")
+                .isNotNull();
+
+        Assertions.assertThat(productService.getAllProducts())
+                .as("The list shouldn't be empty, there should be products on the list")
+                .isNotEmpty();
     }
 }
