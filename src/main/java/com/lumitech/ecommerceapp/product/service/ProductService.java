@@ -25,7 +25,7 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
-    Iterable<Product> getProducts(String sort, String order);
+    List<Product> getProducts(String sort, String order, int page);
 
     Product findByNameIgnoreCase(String productName);
 
