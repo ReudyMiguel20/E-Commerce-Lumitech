@@ -1,7 +1,6 @@
 package com.lumitech.ecommerceapp.product.model.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -30,6 +29,7 @@ public class Product {
     private String category;
     private String brand;
 
+    //This equal method doesn't compare the id of the object
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
