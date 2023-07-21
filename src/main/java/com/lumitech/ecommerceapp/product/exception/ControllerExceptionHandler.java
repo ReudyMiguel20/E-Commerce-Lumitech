@@ -120,4 +120,20 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         );
         return ResponseEntity.badRequest().body(customErrorMessage);
     }
+
+    @ExceptionHandler(ProductSortingException.class)
+    public static ResponseEntity<CustomErrorMessage> handleProductSortingException() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                400,
+                "Bad Request",
+                "Error, make sure to sort a product by: id, name, price, brand, category",
+                path
+        );
+        return ResponseEntity.badRequest().body(customErrorMessage);
+    }
 }

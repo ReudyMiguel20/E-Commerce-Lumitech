@@ -12,6 +12,9 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class ProductServiceImplTest {
@@ -188,6 +191,7 @@ class ProductServiceImplTest {
 
     //Write a name for this test
     @Test
+    @DisplayName("Update a product by specifying the ID")
     void updateProductBySpecifyingId() {
         //Arrange
         Product productOne = Product.builder()
@@ -226,6 +230,7 @@ class ProductServiceImplTest {
     }
 
     @Test
+    @DisplayName("Deleting a product by name")
     void deletingProductByName() {
         //Arrange
         Product productOne = Product.builder()
@@ -276,6 +281,7 @@ class ProductServiceImplTest {
     }
 
     @Test
+    @DisplayName("Deleting a product by ID")
     void deleteProductById() {
         //Arrange
         Product productOne = Product.builder()
@@ -320,5 +326,421 @@ class ProductServiceImplTest {
         Assertions.assertThat(productService.getAllProducts())
                 .as("The list shouldn't be empty, there should be products on the list")
                 .isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Sorting products by Price ascending")
+    void getListOfProductsSortedByPriceAsc() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("test")
+                .description("test")
+                .price(45.32)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("test")
+                .description("test")
+                .price(100.23)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productThree = Product.builder()
+                .name("test")
+                .description("test")
+                .price(56.00)
+                .category("test")
+                .brand("test")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+        productService.saveProduct(productThree);
+
+        //Act
+        Iterable<Product> iterableProductList = productService.getProducts("price", "asc");
+
+        //Creating and converting the Iterable to a Collection
+        List<Product> productList = new ArrayList<>();
+        iterableProductList.forEach(productList::add);
+
+        //Assert
+        Assertions.assertThat(productList.size())
+                .as("List size is expected to be 3")
+                .isEqualTo(3);
+
+        Assertions.assertThat(productList.get(0))
+                .as("The product with the lowest price is not first")
+                .isEqualTo(productOne);
+
+        Assertions.assertThat(productList.get(2))
+                .as("The product with the highest price is not last")
+                .isEqualTo(productTwo);
+    }
+
+    @Test
+    @DisplayName("Sorting products by Price descending")
+    void getListOfProductsSortedByPriceDesc() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("test")
+                .description("test")
+                .price(45.32)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("test")
+                .description("test")
+                .price(100.23)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productThree = Product.builder()
+                .name("test")
+                .description("test")
+                .price(56.00)
+                .category("test")
+                .brand("test")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+        productService.saveProduct(productThree);
+
+        //Act
+        Iterable<Product> iterableProductList = productService.getProducts("price", "desc");
+
+        //Creating and converting the Iterable to a Collection
+        List<Product> productList = new ArrayList<>();
+        iterableProductList.forEach(productList::add);
+
+        //Assert
+        Assertions.assertThat(productList.size())
+                .as("List size is expected to be 3")
+                .isEqualTo(3);
+
+        Assertions.assertThat(productList.get(0))
+                .as("The product with the highest price is not first")
+                .isEqualTo(productTwo);
+
+        Assertions.assertThat(productList.get(2))
+                .as("The product with the lowest price is not last")
+                .isEqualTo(productOne);
+    }
+
+    @Test
+    @DisplayName("Sorting products by Name ascending")
+    void getListOfProductsSortedByNameAsc() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("Zerox Keyboard")
+                .description("test")
+                .price(45.32)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("ASUS Motherboard")
+                .description("test")
+                .price(100.23)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productThree = Product.builder()
+                .name("Logitech Mouse G22")
+                .description("test")
+                .price(56.00)
+                .category("test")
+                .brand("test")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+        productService.saveProduct(productThree);
+
+        //Act
+        Iterable<Product> iterableProductList = productService.getProducts("name", "asc");
+
+        //Creating and converting the Iterable to a Collection
+        List<Product> productList = new ArrayList<>();
+        iterableProductList.forEach(productList::add);
+
+        //Assert
+        Assertions.assertThat(productList.size())
+                .as("List size is expected to be 3")
+                .isEqualTo(3);
+
+        Assertions.assertThat(productList.get(0))
+                .as("The first product should be " + productTwo.getName())
+                .isEqualTo(productTwo);
+
+        Assertions.assertThat(productList.get(2))
+                .as("The last product should be " + productTwo.getName())
+                .isEqualTo(productOne);
+    }
+
+    @Test
+    @DisplayName("Sorting products by Name descending")
+    void getListOfProductsSortedByNameDesc() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("Zerox Keyboard")
+                .description("test")
+                .price(45.32)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("ASUS Motherboard")
+                .description("test")
+                .price(100.23)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productThree = Product.builder()
+                .name("Logitech Mouse G22")
+                .description("test")
+                .price(56.00)
+                .category("test")
+                .brand("test")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+        productService.saveProduct(productThree);
+
+        //Act
+        Iterable<Product> iterableProductList = productService.getProducts("name", "desc");
+
+        //Creating and converting the Iterable to a Collection
+        List<Product> productList = new ArrayList<>();
+        iterableProductList.forEach(productList::add);
+
+        //Assert
+        Assertions.assertThat(productList.size())
+                .as("List size is expected to be 3")
+                .isEqualTo(3);
+
+        Assertions.assertThat(productList.get(0))
+                .as("The first product should be " + productOne.getName())
+                .isEqualTo(productOne);
+
+        Assertions.assertThat(productList.get(2))
+                .as("The last product should be " + productTwo.getName())
+                .isEqualTo(productTwo);
+    }
+
+    @Test
+    @DisplayName("Sorting products by Brand ascending")
+    void getListOfProductsSortedByBrandAsc() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("Logitech Mouse G22")
+                .description("test")
+                .price(56.00)
+                .category("test")
+                .brand("logitech")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("Zerox Keyboard")
+                .description("test")
+                .price(45.32)
+                .category("test")
+                .brand("zerox")
+                .build();
+
+        Product productThree = Product.builder()
+                .name("ASUS Motherboard")
+                .description("test")
+                .price(100.23)
+                .category("test")
+                .brand("asus")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+        productService.saveProduct(productThree);
+
+        //Act
+        Iterable<Product> iterableProductList = productService.getProducts("brand", "asc");
+
+        //Creating and converting the Iterable to a Collection
+        List<Product> productList = new ArrayList<>();
+        iterableProductList.forEach(productList::add);
+
+        //Assert
+        Assertions.assertThat(productList.size())
+                .as("List size is expected to be 3")
+                .isEqualTo(3);
+
+        Assertions.assertThat(productList.get(0))
+                .as("The first product category should be " + productThree.getBrand())
+                .isEqualTo(productThree);
+
+        Assertions.assertThat(productList.get(2))
+                .as("The last product category should be " + productTwo.getBrand())
+                .isEqualTo(productTwo);
+    }
+
+    @Test
+    @DisplayName("Sorting products by Brand descending")
+    void getListOfProductsSortedByBrandDesc() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("Logitech Mouse G22")
+                .description("test")
+                .price(56.00)
+                .category("test")
+                .brand("logitech")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("Zerox Keyboard")
+                .description("test")
+                .price(45.32)
+                .category("test")
+                .brand("zerox")
+                .build();
+
+        Product productThree = Product.builder()
+                .name("ASUS Motherboard")
+                .description("test")
+                .price(100.23)
+                .category("test")
+                .brand("asus")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+        productService.saveProduct(productThree);
+
+        //Act
+        Iterable<Product> iterableProductList = productService.getProducts("brand", "desc");
+
+        //Creating and converting the Iterable to a Collection
+        List<Product> productList = new ArrayList<>();
+        iterableProductList.forEach(productList::add);
+
+        //Assert
+        Assertions.assertThat(productList.size())
+                .as("List size is expected to be 3")
+                .isEqualTo(3);
+
+        Assertions.assertThat(productList.get(0))
+                .as("The first product category should be " + productTwo.getBrand())
+                .isEqualTo(productTwo);
+
+        Assertions.assertThat(productList.get(2))
+                .as("The last product category should be " + productThree.getBrand())
+                .isEqualTo(productThree);
+    }
+
+    @Test
+    @DisplayName("Sorting products by Category ascending")
+    void getListOfProductsSortedByCategoryAsc() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("Logitech Mouse G22")
+                .description("test")
+                .price(56.00)
+                .category("Accessory")
+                .brand("logitech")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("Zerox Keyboard")
+                .description("test")
+                .price(45.32)
+                .category("")
+                .brand("Accessory")
+                .build();
+
+        Product productThree = Product.builder()
+                .name("ASUS Motherboard")
+                .description("PC Component")
+                .price(100.23)
+                .category("PC Component")
+                .brand("asus")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+        productService.saveProduct(productThree);
+
+        //Act
+        Iterable<Product> iterableProductList = productService.getProducts("category", "asc");
+
+        //Creating and converting the Iterable to a Collection
+        List<Product> productList = new ArrayList<>();
+        iterableProductList.forEach(productList::add);
+
+        //Assert
+        Assertions.assertThat(productList.size())
+                .as("List size is expected to be 3")
+                .isEqualTo(3);
+
+        Assertions.assertThat(productList.get(0))
+                .as("The first product category should be " + productTwo.getCategory())
+                .isEqualTo(productTwo);
+
+        Assertions.assertThat(productList.get(2))
+                .as("The first product category should be " + productThree.getCategory())
+                .isEqualTo(productThree);
+    }
+
+    @Test
+    @DisplayName("Sorting products by Category descending")
+    void getListOfProductsSortedByCategoryDesc() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("Logitech Mouse G22")
+                .description("test")
+                .price(56.00)
+                .category("Accessory")
+                .brand("logitech")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("Zerox Keyboard")
+                .description("test")
+                .price(45.32)
+                .category("")
+                .brand("Accessory")
+                .build();
+
+        Product productThree = Product.builder()
+                .name("ASUS Motherboard")
+                .description("PC Component")
+                .price(100.23)
+                .category("PC Component")
+                .brand("asus")
+                .build();
+        productService.saveProduct(productOne);
+        productService.saveProduct(productTwo);
+        productService.saveProduct(productThree);
+
+        //Act
+        Iterable<Product> iterableProductList = productService.getProducts("category", "desc");
+
+        //Creating and converting the Iterable to a Collection
+        List<Product> productList = new ArrayList<>();
+        iterableProductList.forEach(productList::add);
+
+        //Assert
+        Assertions.assertThat(productList.size())
+                .as("List size is expected to be 3")
+                .isEqualTo(3);
+
+        Assertions.assertThat(productList.get(0))
+                .as("The first product category should be " + productThree.getCategory())
+                .isEqualTo(productThree);
+
+        Assertions.assertThat(productList.get(2))
+                .as("The last product category should be " + productTwo.getCategory())
+                .isEqualTo(productTwo);
     }
 }

@@ -1,14 +1,14 @@
 package com.lumitech.ecommerceapp.product.service.impl;
 
-import com.lumitech.ecommerceapp.product.exception.errors.ProductDoesntExistsException;
-import com.lumitech.ecommerceapp.product.exception.errors.ProductExistsException;
-import com.lumitech.ecommerceapp.product.exception.errors.ProductsAreEqualsException;
-import com.lumitech.ecommerceapp.product.exception.errors.UpdateValuesSameAsExistingProductException;
+import com.lumitech.ecommerceapp.product.exception.errors.*;
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.repository.ProductRepository;
 import com.lumitech.ecommerceapp.product.service.ProductService;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 import java.util.Objects;
@@ -83,13 +83,37 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepository.findAll();
     }
 
+    @Override
+    public Iterable<Product> getProducts(String sort, String order) {
+        //Sort by id by default, this is always the case if 'sort' parameter is null
+        Sort sortOptions = Sort.by("id");
+
+        if (sort != null) {
+                sortOptions = Sort.by(sort);
+        }
+
+        if (order != null) {
+            if (order.equalsIgnoreCase("desc")) {
+                sortOptions = sortOptions.descending();
+            } else if (order.equalsIgnoreCase("asc")) {
+                sortOptions = sortOptions.ascending();
+            }
+        }
+
+        //Handle exception if 'sort' parameter is not valid
+        try {
+            return this.productRepository.findAll(sortOptions);
+        } catch (PropertyReferenceException e) {
+            throw new ProductSortingException();
+        }
+    }
+
     //This method doesn't work the same as the one in the Repository, just a reminder
     @Override
     public Product findByNameIgnoreCase(String productName) {
         return this.productRepository.findByNameIgnoreCase(productName)
                 .orElseThrow(() -> new ProductDoesntExistsException());
     }
-
 
     /**
      * Processes the update of a product with the provided information.

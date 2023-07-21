@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 import java.util.List;
@@ -79,6 +80,58 @@ public class ProductServiceTest {
         //Assert
         Assertions.assertThat(result.size()).as("Does not contain the correct number of products").isGreaterThan(1);
         Assertions.assertThat(result).as("The list of products is null").isNotNull();
+    }
+
+    @Test
+    void getAll_SortedByPriceAsc() {
+        //Arrange
+        Product productOne = Product.builder()
+                .name("test")
+                .description("test")
+                .price(45.32)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productTwo = Product.builder()
+                .name("test")
+                .description("test")
+                .price(100.23)
+                .category("test")
+                .brand("test")
+                .build();
+
+        Product productThree = Product.builder()
+                .name("test")
+                .description("test")
+                .price(56.00)
+                .category("test")
+                .brand("test")
+                .build();
+
+        List<Product> productList = Arrays.asList(productTwo, productThree, productOne);
+
+        when(productRepository.findAll(Sort.by("price").ascending())).thenReturn(productList);
+
+        //Act
+        List<Product> result = productRepository.findAll(Sort.by("price").ascending());
+
+        //Assertions
+        Assertions.assertThat(result)
+                .as("The list is empty")
+                .isNotEmpty();
+
+        Assertions.assertThat(result.size())
+                .as("List size is expected to be 3")
+                .isEqualTo(3);
+
+        Assertions.assertThat(result.get(0))
+                .as("The product with the highest price is not first")
+                .isEqualTo(productTwo);
+
+        Assertions.assertThat(result.get(2))
+                .as("The product with the lowest price is not last")
+                .isEqualTo(productOne);
     }
 
 }

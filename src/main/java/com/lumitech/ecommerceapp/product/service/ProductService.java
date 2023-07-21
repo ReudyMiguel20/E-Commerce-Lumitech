@@ -25,6 +25,8 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
+    Iterable<Product> getProducts(String sort, String order);
+
     Product findByNameIgnoreCase(String productName);
 
     Product processUpdateProduct(Long id, ProductDTO newProductInfo);

@@ -23,8 +23,14 @@ public class ProductController {
 
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok().body(this.productService.getAllProducts());
+    public ResponseEntity<?> getAllProducts(@RequestParam(required = false) String sort,
+                                            @RequestParam(required = false) String order) {
+        if (sort == null && order == null) {
+            return ResponseEntity.ok().body(this.productService.getAllProducts());
+        }
+
+        Iterable<Product> productList = this.productService.getProducts(sort, order);
+        return ResponseEntity.ok().body(productList);
     }
 
     @GetMapping("/products/{id}")
