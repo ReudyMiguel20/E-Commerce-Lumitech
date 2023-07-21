@@ -29,6 +29,7 @@ public class Product {
     private String category;
     private String brand;
 
+    //This equal method doesn't compare the id of the object
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
