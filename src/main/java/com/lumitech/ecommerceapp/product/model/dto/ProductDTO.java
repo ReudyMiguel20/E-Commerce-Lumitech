@@ -1,13 +1,13 @@
 package com.lumitech.ecommerceapp.product.model.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.Objects;
 
-
 @Builder
-@NotNull
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

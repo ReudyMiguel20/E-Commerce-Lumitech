@@ -1,18 +1,20 @@
-package com.lumitech.ecommerceapp.user.model.dto;
+package com.lumitech.ecommerceapp.users.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.Objects;
 
 @Builder
-@NotNull
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
+public class UsersDTO {
 
     @NotEmpty(message = "First Name cannot be empty")
     @NotBlank(message = "First Name cannot be blank")
@@ -40,20 +42,12 @@ public class UserDTO {
     @Size(min = 7, message = "Password must be at least 7 character long")
     private String password;
 
-    //boolean enabled;
-
-    //List of authorities
-
-    //Add a cart here
-
-    //Add List of orders
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(email, userDTO.email) && Objects.equals(password, userDTO.password);
+        UsersDTO usersDTO = (UsersDTO) o;
+        return Objects.equals(firstName, usersDTO.firstName) && Objects.equals(lastName, usersDTO.lastName) && Objects.equals(email, usersDTO.email) && Objects.equals(password, usersDTO.password);
     }
 
     @Override
