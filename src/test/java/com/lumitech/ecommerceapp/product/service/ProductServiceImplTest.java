@@ -360,7 +360,7 @@ class ProductServiceImplTest {
         productService.saveProduct(productThree);
 
         //Act
-        Iterable<Product> iterableProductList = productService.getProducts("price", "asc");
+        Iterable<Product> iterableProductList = productService.getProducts("price", "asc", 1);
 
         //Creating and converting the Iterable to a Collection
         List<Product> productList = new ArrayList<>();
@@ -412,7 +412,7 @@ class ProductServiceImplTest {
         productService.saveProduct(productThree);
 
         //Act
-        Iterable<Product> iterableProductList = productService.getProducts("price", "desc");
+        Iterable<Product> iterableProductList = productService.getProducts("price", "desc", 1);
 
         //Creating and converting the Iterable to a Collection
         List<Product> productList = new ArrayList<>();
@@ -464,7 +464,7 @@ class ProductServiceImplTest {
         productService.saveProduct(productThree);
 
         //Act
-        Iterable<Product> iterableProductList = productService.getProducts("name", "asc");
+        Iterable<Product> iterableProductList = productService.getProducts("name", "asc", 1);
 
         //Creating and converting the Iterable to a Collection
         List<Product> productList = new ArrayList<>();
@@ -516,7 +516,7 @@ class ProductServiceImplTest {
         productService.saveProduct(productThree);
 
         //Act
-        Iterable<Product> iterableProductList = productService.getProducts("name", "desc");
+        Iterable<Product> iterableProductList = productService.getProducts("name", "desc", 1);
 
         //Creating and converting the Iterable to a Collection
         List<Product> productList = new ArrayList<>();
@@ -568,7 +568,7 @@ class ProductServiceImplTest {
         productService.saveProduct(productThree);
 
         //Act
-        Iterable<Product> iterableProductList = productService.getProducts("brand", "asc");
+        Iterable<Product> iterableProductList = productService.getProducts("brand", "asc", 1);
 
         //Creating and converting the Iterable to a Collection
         List<Product> productList = new ArrayList<>();
@@ -620,7 +620,7 @@ class ProductServiceImplTest {
         productService.saveProduct(productThree);
 
         //Act
-        Iterable<Product> iterableProductList = productService.getProducts("brand", "desc");
+        Iterable<Product> iterableProductList = productService.getProducts("brand", "desc", 1);
 
         //Creating and converting the Iterable to a Collection
         List<Product> productList = new ArrayList<>();
@@ -672,7 +672,7 @@ class ProductServiceImplTest {
         productService.saveProduct(productThree);
 
         //Act
-        Iterable<Product> iterableProductList = productService.getProducts("category", "asc");
+        Iterable<Product> iterableProductList = productService.getProducts("category", "asc", 1);
 
         //Creating and converting the Iterable to a Collection
         List<Product> productList = new ArrayList<>();
@@ -724,7 +724,7 @@ class ProductServiceImplTest {
         productService.saveProduct(productThree);
 
         //Act
-        Iterable<Product> iterableProductList = productService.getProducts("category", "desc");
+        Iterable<Product> iterableProductList = productService.getProducts("category", "desc", 1);
 
         //Creating and converting the Iterable to a Collection
         List<Product> productList = new ArrayList<>();

@@ -5,6 +5,9 @@ import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.repository.ProductRepository;
 import com.lumitech.ecommerceapp.product.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
@@ -84,12 +87,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Iterable<Product> getProducts(String sort, String order) {
+    public List<Product> getProducts(String sort, String order, int page) {
         //Sort by id by default, this is always the case if 'sort' parameter is null
         Sort sortOptions = Sort.by("id");
 
         if (sort != null) {
-                sortOptions = Sort.by(sort);
+            sortOptions = Sort.by(sort);
         }
 
         if (order != null) {
@@ -100,9 +103,13 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
+        //Making sure that page is never less than 0
+        page = Math.max(page - 1, 0);
+
         //Handle exception if 'sort' parameter is not valid
         try {
-            return this.productRepository.findAll(sortOptions);
+            Pageable pageable = PageRequest.of(page, 10, sortOptions);
+            return this.productRepository.findAll(pageable).getContent();
         } catch (PropertyReferenceException e) {
             throw new ProductSortingException();
         }
