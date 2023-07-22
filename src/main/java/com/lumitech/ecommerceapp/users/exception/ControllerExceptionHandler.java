@@ -21,23 +21,23 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
-//    @Override
-//    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-//        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
-//        HttpServletRequest requestServlet = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-//        String path = requestServlet.getRequestURI();
-//
-//        //Creating the body of the response
-//        com.lumitech.ecommerceapp.product.exception.CustomErrorMessage customErrorMessage = new CustomErrorMessage(
-//                LocalDateTime.now(),
-//                status.value(),
-//                status.toString(),
-//                "The request contains invalid data",
-//                path
-//        );
-//
-//        return ResponseEntity.badRequest().body(customErrorMessage);
-//    }
+
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest requestServlet = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = requestServlet.getRequestURI();
+
+        //Creating the body of the response
+        com.lumitech.ecommerceapp.product.exception.CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                status.value(),
+                status.toString(),
+                "The request contains invalid data, probably left some field empty or null.",
+                path
+        );
+
+        return ResponseEntity.badRequest().body(customErrorMessage);
+    }
 
     @ExceptionHandler(UserAlreadyExists.class)
     public static ResponseEntity<CustomErrorMessage> handleProductEmptyOrNull() {
@@ -49,7 +49,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now(),
                 409,
                 "Conflict",
-                "User Already Exists",
+                "There's an user with the same email already registered in the system.",
                 path
         );
         return ResponseEntity.status(409).body(customErrorMessage);

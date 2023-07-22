@@ -1,5 +1,7 @@
 package com.lumitech.ecommerceapp.users.service.impl;
 
+import com.lumitech.ecommerceapp.authorities.model.entity.Authorities;
+import com.lumitech.ecommerceapp.authorities.service.AuthoritiesService;
 import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExists;
 import com.lumitech.ecommerceapp.users.model.dto.UserDTO;
 import com.lumitech.ecommerceapp.users.model.entity.User;
@@ -13,11 +15,18 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final AuthoritiesService authoritiesService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, AuthoritiesService authoritiesService) {
         this.userRepository = userRepository;
+        this.authoritiesService = authoritiesService;
+    }
+
+    @Override
+    public User saveAndReturnUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override
@@ -31,16 +40,27 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    /**
+     * This method creates a new user and assign a role to it before saving it to the database
+     * and returning it to the controller
+     *
+     * @param userDTO the userDTO object that contains the user information
+     * @return the user object that was created
+     */
     @Override
-    public User createAndSaveNewUser(UserDTO userDTO) {
+    public User createNewUserAssignRole(UserDTO userDTO) {
         User newUser = convertUserDtoToUser(userDTO);
 
-        //Logic here to check if the user already exists
+        // Throw an exception if the user already exists in the database
         if (userAlreadyExists(newUser)){
             throw new UserAlreadyExists();
         }
 
-        return this.userRepository.save(newUser);
+        // Saving the user before sending it to the authorities service to assign a role to it
+        userRepository.save(newUser);
+        newUser = authoritiesService.assignRoleToUserAndSave(newUser);
+
+        return userRepository.save(newUser);
     }
 
     @Override

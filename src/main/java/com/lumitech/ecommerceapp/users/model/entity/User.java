@@ -3,14 +3,18 @@ package com.lumitech.ecommerceapp.users.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.lumitech.ecommerceapp.authorities.model.entity.Authorities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.data.repository.cdi.Eager;
 
-import java.util.Objects;
+import java.util.*;
 
 @Builder
 @AllArgsConstructor
@@ -58,6 +62,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Authorities> roles = new ArrayList<>();
+
     //boolean enabled;
 
     //List of authorities
@@ -65,7 +72,6 @@ public class User {
     //Add a cart here
 
     //Add List of orders
-
 
     //This equal method doesn't compare the id of the object
     @Override

@@ -31,7 +31,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now(),
                 status.value(),
                 status.toString(),
-                "The request contains invalid data",
+                "The request contains invalid data, probably left some field empty or null.",
                 path
         );
 
