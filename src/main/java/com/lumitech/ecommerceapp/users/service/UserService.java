@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface UserService {
 
+    User saveAndReturnUser(User user);
     User convertUserDtoToUser(UserDTO userDTO);
-    User createAndSaveNewUser(UserDTO userDTO);
+    User createNewUserAssignRole(UserDTO userDTO);
     void deleteAll();
     List<User> getAllUsers();
     boolean userAlreadyExists(User userToCheck);

@@ -1,5 +1,6 @@
 package com.lumitech.ecommerceapp.users.controller;
 
+import com.lumitech.ecommerceapp.authorities.service.AuthoritiesService;
 import com.lumitech.ecommerceapp.users.model.dto.UserDTO;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.service.UserService;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController (UserService userService) {
@@ -23,8 +24,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> registeringNewUser(@Valid @RequestBody  UserDTO userDTO) {
-        User newUser = userService.createAndSaveNewUser(userDTO);
+    public ResponseEntity<User> registeringNewUser(@Valid @RequestBody UserDTO userDTO) {
+        User newUser = userService.createNewUserAssignRole(userDTO);
         return ResponseEntity.ok().body(newUser);
     }
 }

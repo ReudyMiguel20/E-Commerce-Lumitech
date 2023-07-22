@@ -1,13 +1,18 @@
 package com.lumitech.ecommerceapp.users.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lumitech.ecommerceapp.authorities.model.entity.Authorities;
+import jakarta.persistence.ElementCollection;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -41,6 +46,9 @@ public class UserDTO {
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 7, message = "Password must be at least 7 character long")
     private String password;
+
+    @Builder.Default
+    private List<Authorities> roles = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

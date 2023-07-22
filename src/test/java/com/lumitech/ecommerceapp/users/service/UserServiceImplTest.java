@@ -1,9 +1,9 @@
 package com.lumitech.ecommerceapp.users.service;
 
+import com.lumitech.ecommerceapp.authorities.model.entity.Authorities;
 import com.lumitech.ecommerceapp.users.model.dto.UserDTO;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.service.impl.UserServiceImpl;
-import org.assertj.core.api.Assert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ public class UserServiceImplTest {
                 .build();
 
         //Act
-        User newUser = userService.createAndSaveNewUser(userDTO);
+        User newUser = userService.createNewUserAssignRole(userDTO);
 
         //Assert
         Assertions.assertThat(userService.getAllUsers())
@@ -82,8 +82,8 @@ public class UserServiceImplTest {
                 .password("catchmeifucan")
                 .build();
 
-        User firstUser = userService.createAndSaveNewUser(firstUserDTO);
-        User secondUser = userService.createAndSaveNewUser(secondUserDTO);
+        User firstUser = userService.createNewUserAssignRole(firstUserDTO);
+        User secondUser = userService.createNewUserAssignRole(secondUserDTO);
 
         //Assert
         Assertions.assertThat(userService.getAllUsers().size())
@@ -91,11 +91,60 @@ public class UserServiceImplTest {
                 .isEqualTo(2);
 
         Assertions.assertThat(firstUser)
-                .as("")
+                .as("First user is null")
                 .isNotNull();
 
         Assertions.assertThat(secondUser)
-                .as("")
+                .as("sECOND user is null.")
+                .isNotNull();
+
+        Assertions.assertThat(firstUser)
+                .as("The firstUser object is not type 'User'")
+                .isExactlyInstanceOf(User.class);
+
+        Assertions.assertThat(secondUser)
+                .as("The secondUser object is not type 'User'")
+                .isExactlyInstanceOf(User.class);
+
+        Assertions.assertThat(firstUser.getEmail())
+                .as("There's already a user with this email")
+                .isNotEqualTo(secondUser.getEmail());
+    }
+
+    @Test
+    @DisplayName("Assigning Admin and Customer Roles to Two Users")
+    void assigningRolesToTwoCreatedUsers() {
+        //Arrange
+        UserDTO firstUserDTO = UserDTO.builder()
+                .firstName("Mike")
+                .lastName("Carmine")
+                .address("The green street #56")
+                .email("google@hotmail.com")
+                .password("catchmeifucan")
+                .build();
+
+        UserDTO secondUserDTO = UserDTO.builder()
+                .firstName("Mike")
+                .lastName("Carmine")
+                .address("The green street #56")
+                .email("mikecarmine@hotmail.com")
+                .password("catchmeifucan")
+                .build();
+
+        User firstUser = userService.createNewUserAssignRole(firstUserDTO);
+        User secondUser = userService.createNewUserAssignRole(secondUserDTO);
+
+        //Assert
+        Assertions.assertThat(userService.getAllUsers().size())
+                .as("Expected the size list of users to be 2.")
+                .isEqualTo(2);
+
+        Assertions.assertThat(firstUser)
+                .as("First user is null.")
+                .isNotNull();
+
+        Assertions.assertThat(secondUser)
+                .as("Second user is null.")
                 .isNotNull();
 
         Assertions.assertThat(firstUser)
@@ -106,8 +155,12 @@ public class UserServiceImplTest {
                 .as("The object is not type 'User'")
                 .isExactlyInstanceOf(User.class);
 
-        Assertions.assertThat(firstUser.getEmail())
-                .as("There's already a user with this email")
-                .isNotEqualTo(secondUser.getEmail());
+        Assertions.assertThat(firstUser.getRoles().get(0).getRole().toString())
+                .as("First user created should have Admin Role")
+                .isEqualTo("ROLE_ADMIN");
+
+        Assertions.assertThat(secondUser.getRoles().get(0).getRole().toString())
+                .as("From the second user onwards, the role should be Customer")
+                .isEqualTo("ROLE_CUSTOMER");
     }
 }
