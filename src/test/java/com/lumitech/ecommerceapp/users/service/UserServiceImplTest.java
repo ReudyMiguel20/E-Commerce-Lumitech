@@ -1,7 +1,6 @@
 package com.lumitech.ecommerceapp.users.service;
 
-import com.lumitech.ecommerceapp.authorities.model.entity.Authorities;
-import com.lumitech.ecommerceapp.users.model.dto.UserDTO;
+import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.service.impl.UserServiceImpl;
 import org.assertj.core.api.Assertions;
@@ -29,7 +28,7 @@ public class UserServiceImplTest {
     @DisplayName("Persisting a new user to the database")
     void addUserToDatabase() {
         //Arrange
-        UserDTO userDTO = UserDTO.builder()
+        RegisterRequest registerRequest = RegisterRequest.builder()
                 .firstName("Mike")
                 .lastName("Carmine")
                 .address("The green street #56")
@@ -38,7 +37,7 @@ public class UserServiceImplTest {
                 .build();
 
         //Act
-        User newUser = userService.createNewUserAssignRole(userDTO);
+        User newUser = userService.createNewUserAssignRole(registerRequest);
 
         //Assert
         Assertions.assertThat(userService.getAllUsers())
@@ -55,18 +54,18 @@ public class UserServiceImplTest {
 
         Assertions.assertThat(newUser)
                 .as("")
-                .hasFieldOrPropertyWithValue("firstName", userDTO.getFirstName())
-                .hasFieldOrPropertyWithValue("lastName", userDTO.getLastName())
-                .hasFieldOrPropertyWithValue("address", userDTO.getAddress())
-                .hasFieldOrPropertyWithValue("email", userDTO.getEmail())
-                .hasFieldOrPropertyWithValue("password", userDTO.getPassword());
+                .hasFieldOrPropertyWithValue("firstName", registerRequest.getFirstName())
+                .hasFieldOrPropertyWithValue("lastName", registerRequest.getLastName())
+                .hasFieldOrPropertyWithValue("address", registerRequest.getAddress())
+                .hasFieldOrPropertyWithValue("email", registerRequest.getEmail())
+                .hasFieldOrPropertyWithValue("password", registerRequest.getPassword());
     }
 
     @Test
     @DisplayName("Creating new user which already exists")
     void creatingNewUserThatAlreadyExists() {
         //Arrange
-        UserDTO firstUserDTO = UserDTO.builder()
+        RegisterRequest firstRegisterRequest = RegisterRequest.builder()
                 .firstName("Mike")
                 .lastName("Carmine")
                 .address("The green street #56")
@@ -74,7 +73,7 @@ public class UserServiceImplTest {
                 .password("catchmeifucan")
                 .build();
 
-        UserDTO secondUserDTO = UserDTO.builder()
+        RegisterRequest secondRegisterRequest = RegisterRequest.builder()
                 .firstName("Mike")
                 .lastName("Carmine")
                 .address("The green street #56")
@@ -82,8 +81,8 @@ public class UserServiceImplTest {
                 .password("catchmeifucan")
                 .build();
 
-        User firstUser = userService.createNewUserAssignRole(firstUserDTO);
-        User secondUser = userService.createNewUserAssignRole(secondUserDTO);
+        User firstUser = userService.createNewUserAssignRole(firstRegisterRequest);
+        User secondUser = userService.createNewUserAssignRole(secondRegisterRequest);
 
         //Assert
         Assertions.assertThat(userService.getAllUsers().size())
@@ -115,7 +114,7 @@ public class UserServiceImplTest {
     @DisplayName("Assigning Admin and Customer Roles to Two Users")
     void assigningRolesToTwoCreatedUsers() {
         //Arrange
-        UserDTO firstUserDTO = UserDTO.builder()
+        RegisterRequest firstRegisterRequest = RegisterRequest.builder()
                 .firstName("Mike")
                 .lastName("Carmine")
                 .address("The green street #56")
@@ -123,7 +122,7 @@ public class UserServiceImplTest {
                 .password("catchmeifucan")
                 .build();
 
-        UserDTO secondUserDTO = UserDTO.builder()
+        RegisterRequest secondRegisterRequest = RegisterRequest.builder()
                 .firstName("Mike")
                 .lastName("Carmine")
                 .address("The green street #56")
@@ -131,8 +130,8 @@ public class UserServiceImplTest {
                 .password("catchmeifucan")
                 .build();
 
-        User firstUser = userService.createNewUserAssignRole(firstUserDTO);
-        User secondUser = userService.createNewUserAssignRole(secondUserDTO);
+        User firstUser = userService.createNewUserAssignRole(firstRegisterRequest);
+        User secondUser = userService.createNewUserAssignRole(secondRegisterRequest);
 
         //Assert
         Assertions.assertThat(userService.getAllUsers().size())
