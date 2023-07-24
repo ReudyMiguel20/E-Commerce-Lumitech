@@ -1,4 +1,4 @@
-package com.lumitech.ecommerceapp.product.exception;
+package com.lumitech.ecommerceapp.common.exceptionhandler;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

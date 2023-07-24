@@ -31,18 +31,18 @@ public class SecurityConfiguration {
 
         http
 
+
                 .csrf(csrf -> {
                     csrf.disable();
                     csrf.ignoringRequestMatchers("/h2-console/**");
                 })
 
-
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers(h2RequestMatcher).permitAll()
                             .requestMatchers("/api/user/**").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyRole("ADMIN", "USER") //It works for user
-                            .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyAuthority("ADMIN", "USER") //It works for user
+                            .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyRole("ADMIN", "CUSTOMER")
+                            .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyAuthority("ADMIN", "CUSTOMER")
                             .anyRequest()
                             .permitAll();
                 })
@@ -56,6 +56,7 @@ public class SecurityConfiguration {
 
         http.cors().disable();
         http.headers().frameOptions().disable();
+        http.httpBasic();
 
         return http.build();
     }

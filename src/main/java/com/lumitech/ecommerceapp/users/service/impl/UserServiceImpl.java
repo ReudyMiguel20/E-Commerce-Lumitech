@@ -1,18 +1,13 @@
 package com.lumitech.ecommerceapp.users.service.impl;
 
-import com.lumitech.ecommerceapp.auth.model.dto.AuthenticationResponse;
-import com.lumitech.ecommerceapp.common.jwt.JwtService;
 import com.lumitech.ecommerceapp.users.exception.error.EmailNotFoundException;
 import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
-import com.lumitech.ecommerceapp.users.model.dto.AuthenticationRequest;
 import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
 import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.repository.UserRepository;
 import com.lumitech.ecommerceapp.users.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +20,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
 
     @Override
     public User saveAndReturnUser(User user) {
@@ -46,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * This method creates a new user and assign a role to it before saving it to the database
-     * and returning it to the controller
+     * and returning it
      *
      * @param registerRequest the userDTO object that contains the user information
      * @return the user object that was created
@@ -87,27 +80,19 @@ public class UserServiceImpl implements UserService {
                 .anyMatch(user -> user.getEmail().equals(userToCheck.getEmail()));
     }
 
+    /**
+     * Assigning admin role to the first user that registers to the application
+     * and customer role to the rest of the users
+     *
+     * @param user the user object that will be assigned a role
+     * @return the user object with the assigned role
+     */
     public User decideRoleForUser(User user) {
         if (getAllUsers().size() == 0) {
             user.setRole(Role.ADMIN);
         } else {
-            user.setRole(Role.USER);
+            user.setRole(Role.CUSTOMER);
         }
         return user;
-    }
-
-    @Override
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(EmailNotFoundException::new);
-        String jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
     }
 }

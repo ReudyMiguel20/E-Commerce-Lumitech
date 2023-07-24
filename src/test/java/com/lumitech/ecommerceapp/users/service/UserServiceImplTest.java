@@ -101,7 +101,7 @@ public class UserServiceImplTest {
                 .isNotNull();
 
         Assertions.assertThat(secondUser)
-                .as("sECOND user is null.")
+                .as("Second user is null.")
                 .isNotNull();
 
         Assertions.assertThat(firstUser)
@@ -167,6 +167,6 @@ public class UserServiceImplTest {
 
         Assertions.assertThat(secondUser.getRole().toString())
                 .as("From the second user onwards, the role should be Customer")
-                .isEqualTo("USER");
+                .isEqualTo("CUSTOMER");
     }
 }

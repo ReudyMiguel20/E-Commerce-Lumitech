@@ -1,12 +1,15 @@
-package com.lumitech.ecommerceapp.product.exception;
+package com.lumitech.ecommerceapp.common.exceptionhandler;
 
 
 import com.lumitech.ecommerceapp.product.exception.errors.*;
+import com.lumitech.ecommerceapp.users.exception.error.EmailNotFoundException;
+import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -15,9 +18,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.LocalDateTime;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
-
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -37,6 +39,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(customErrorMessage);
     }
 
+    /* ************************* Product Exceptions ************************* */
 
     @ExceptionHandler(ProductExistsException.class)
     public static ResponseEntity<CustomErrorMessage> handleProductExists() {
@@ -135,5 +138,38 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 path
         );
         return ResponseEntity.badRequest().body(customErrorMessage);
+    }
+
+    /* ************************* User Exceptions ************************* */
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public static ResponseEntity<CustomErrorMessage> handleUserAlreadyExistsException() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                409,
+                "Conflict",
+                "There's an user with the same email already registered in the system.",
+                path
+        );
+        return ResponseEntity.status(409).body(customErrorMessage);
+    }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public static ResponseEntity<CustomErrorMessage> handleUsernameNotFound() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                409,
+                "Conflict",
+                "Email not found",
+                path
+        );
+        return ResponseEntity.status(404).body(customErrorMessage);
     }
 }

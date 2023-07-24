@@ -1,5 +1,6 @@
 package com.lumitech.ecommerceapp.product.exception.errors;
 
+
 public class ProductExistsException extends RuntimeException {
 
     public ProductExistsException() {
