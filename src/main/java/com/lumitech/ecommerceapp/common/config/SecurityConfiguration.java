@@ -40,11 +40,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers(h2RequestMatcher).permitAll()
-                            .requestMatchers("/api/user/**").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyRole("ADMIN", "CUSTOMER")
-                            .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+                            .requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers(HttpMethod.POST,"/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
+                            .requestMatchers(HttpMethod.PUT,"/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
+                            .requestMatchers(HttpMethod.DELETE,"/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                             .anyRequest()
-                            .permitAll();
+                            .authenticated();
                 })
 
 
