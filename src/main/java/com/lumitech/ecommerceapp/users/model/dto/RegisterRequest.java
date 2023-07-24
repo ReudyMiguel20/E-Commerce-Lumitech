@@ -1,8 +1,11 @@
 package com.lumitech.ecommerceapp.users.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lumitech.ecommerceapp.authorities.model.entity.Authorities;
-import jakarta.persistence.ElementCollection;
+import com.lumitech.ecommerceapp.authorities.model.entity.Role;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -12,14 +15,13 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
+public class RegisterRequest {
 
     @NotEmpty(message = "First Name cannot be empty")
     @NotBlank(message = "First Name cannot be blank")
@@ -47,15 +49,19 @@ public class UserDTO {
     @Size(min = 7, message = "Password must be at least 7 character long")
     private String password;
 
-    @Builder.Default
-    private List<Authorities> roles = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    @JsonIgnore
+    private Role role;
+
+//    @Builder.Default
+//    private List<Authorities> roles = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(email, userDTO.email) && Objects.equals(password, userDTO.password);
+        RegisterRequest registerRequest = (RegisterRequest) o;
+        return Objects.equals(firstName, registerRequest.firstName) && Objects.equals(lastName, registerRequest.lastName) && Objects.equals(email, registerRequest.email) && Objects.equals(password, registerRequest.password);
     }
 
     @Override

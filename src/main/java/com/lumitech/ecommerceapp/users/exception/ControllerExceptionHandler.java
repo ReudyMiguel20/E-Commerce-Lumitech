@@ -1,9 +1,8 @@
 package com.lumitech.ecommerceapp.users.exception;
 
 import com.lumitech.ecommerceapp.product.exception.CustomErrorMessage;
-import com.lumitech.ecommerceapp.product.exception.errors.ProductIsEmptyOrNullException;
-import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExists;
-import com.lumitech.ecommerceapp.users.model.entity.User;
+import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
+import com.lumitech.ecommerceapp.users.exception.error.UsernameNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -39,8 +38,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(customErrorMessage);
     }
 
-    @ExceptionHandler(UserAlreadyExists.class)
-    public static ResponseEntity<CustomErrorMessage> handleProductEmptyOrNull() {
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public static ResponseEntity<CustomErrorMessage> handleUserAlreadyExistsException() {
         //Initializing the HttpServletRequest object to get the path of the request that caused the error.
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String path = request.getRequestURI();
@@ -53,6 +52,22 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 path
         );
         return ResponseEntity.status(409).body(customErrorMessage);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public static ResponseEntity<CustomErrorMessage> handleUsernameNotFound() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                409,
+                "Conflict",
+                "User not found",
+                path
+        );
+        return ResponseEntity.status(404).body(customErrorMessage);
     }
 
 }
