@@ -30,8 +30,6 @@ public class SecurityConfiguration {
         h2RequestMatcher.setServletPath("/h2-console");
 
         http
-
-
                 .csrf(csrf -> {
                     csrf.disable();
                     csrf.ignoringRequestMatchers("/h2-console/**");
@@ -41,13 +39,12 @@ public class SecurityConfiguration {
                     auth
                             .requestMatchers(h2RequestMatcher).permitAll()
                             .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers(HttpMethod.POST,"/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
-                            .requestMatchers(HttpMethod.PUT,"/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
-                            .requestMatchers(HttpMethod.DELETE,"/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
+                            .requestMatchers(HttpMethod.POST, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
+                            .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
+                            .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                             .anyRequest()
                             .authenticated();
                 })
-
 
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

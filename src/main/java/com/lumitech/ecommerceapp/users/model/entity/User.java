@@ -53,6 +53,7 @@ public class User implements UserDetails {
     @NotEmpty(message = "Email cannot be empty")
     @NotBlank(message = "Email cannot be blank")
     @Email(regexp = "^(?i)[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$")
+    @Size(min = 7, message = "Email must be at least 7 character long")
     @Column(name = "email")
     private String email;
 
@@ -68,12 +69,6 @@ public class User implements UserDetails {
 
 //    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    private List<Authorities> roles = new ArrayList<>();
-
-
-
-    //boolean enabled;
-
-    //List of authorities
 
     //Add a cart here
 
