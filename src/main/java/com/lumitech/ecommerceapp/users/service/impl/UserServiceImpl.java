@@ -1,12 +1,12 @@
 package com.lumitech.ecommerceapp.users.service.impl;
 
-import com.lumitech.ecommerceapp.authorities.service.AuthoritiesService;
-import com.lumitech.ecommerceapp.common.JwtService;
+import com.lumitech.ecommerceapp.auth.model.dto.AuthenticationResponse;
+import com.lumitech.ecommerceapp.common.jwt.JwtService;
+import com.lumitech.ecommerceapp.users.exception.error.EmailNotFoundException;
 import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
-import com.lumitech.ecommerceapp.users.exception.error.UsernameNotFoundException;
 import com.lumitech.ecommerceapp.users.model.dto.AuthenticationRequest;
-import com.lumitech.ecommerceapp.authorities.model.dto.AuthenticationResponse;
 import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
+import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.repository.UserRepository;
 import com.lumitech.ecommerceapp.users.service.UserService;
@@ -17,13 +17,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final AuthoritiesService authoritiesService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
                 .address(registerRequest.getAddress())
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
-//                .role(Role.ADMIN)
                 .build();
     }
 
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
      * @return the user object that was created
      */
     @Override
-    public AuthenticationResponse createNewUserAssignRole(RegisterRequest registerRequest) {
+    public User createNewUserAssignRole(RegisterRequest registerRequest) {
         User newUser = convertRegisterRequestToUser(registerRequest);
 
         // Throw an exception if the user already exists in the database
@@ -62,14 +61,8 @@ public class UserServiceImpl implements UserService {
         }
 
         // Saving the user before sending it to the authorities service to assign a role to it
-        userRepository.save(newUser);
-        newUser = authoritiesService.assignRoleToUserAndSave(newUser);
-        String jwtToken = jwtService.generateToken(newUser);
-        userRepository.save(newUser);
-
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        newUser = decideRoleForUser(newUser);
+        return userRepository.save(newUser);
     }
 
     @Override
@@ -83,9 +76,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email)
+                .orElseThrow(EmailNotFoundException::new));
+    }
+
+    @Override
     public boolean userAlreadyExists(User userToCheck) {
         return getAllUsers().stream()
                 .anyMatch(user -> user.getEmail().equals(userToCheck.getEmail()));
+    }
+
+    public User decideRoleForUser(User user) {
+        if (getAllUsers().size() == 0) {
+            user.setRole(Role.ADMIN);
+        } else {
+            user.setRole(Role.USER);
+        }
+        return user;
     }
 
     @Override
@@ -96,7 +104,7 @@ public class UserServiceImpl implements UserService {
                         request.getPassword()
                 )
         );
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(UsernameNotFoundException::new);
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(EmailNotFoundException::new);
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

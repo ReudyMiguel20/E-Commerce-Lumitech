@@ -2,8 +2,7 @@ package com.lumitech.ecommerceapp.users.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lumitech.ecommerceapp.authorities.model.entity.Authorities;
-import com.lumitech.ecommerceapp.authorities.model.entity.Role;
+import com.lumitech.ecommerceapp.users.model.entity.Role;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
@@ -12,8 +11,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Builder
@@ -52,9 +49,6 @@ public class RegisterRequest {
     @Enumerated(EnumType.STRING)
     @JsonIgnore
     private Role role;
-
-//    @Builder.Default
-//    private List<Authorities> roles = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

@@ -1,6 +1,6 @@
-package com.lumitech.ecommerceapp.common;
+package com.lumitech.ecommerceapp.common.config;
 
-import jakarta.servlet.Filter;
+import com.lumitech.ecommerceapp.common.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,6 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -57,7 +56,6 @@ public class SecurityConfiguration {
 
         http.cors().disable();
         http.headers().frameOptions().disable();
-
 
         return http.build();
     }

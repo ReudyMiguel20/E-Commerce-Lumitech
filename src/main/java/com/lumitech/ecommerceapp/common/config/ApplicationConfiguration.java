@@ -1,7 +1,7 @@
-package com.lumitech.ecommerceapp.common;
+package com.lumitech.ecommerceapp.common.config;
 
 
-import com.lumitech.ecommerceapp.users.exception.error.UsernameNotFoundException;
+import com.lumitech.ecommerceapp.users.exception.error.EmailNotFoundException;
 import com.lumitech.ecommerceapp.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,14 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
-public class ApplicationConfig {
+public class ApplicationConfiguration {
 
     private final UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
-                .orElseThrow(UsernameNotFoundException::new);
+                .orElseThrow(EmailNotFoundException::new);
     }
 
     @Bean

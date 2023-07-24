@@ -1,4 +1,4 @@
-package com.lumitech.ecommerceapp.authorities.model.dto;
+package com.lumitech.ecommerceapp.auth.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

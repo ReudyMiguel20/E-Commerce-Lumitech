@@ -1,8 +1,8 @@
 package com.lumitech.ecommerceapp.users.exception;
 
 import com.lumitech.ecommerceapp.product.exception.CustomErrorMessage;
+import com.lumitech.ecommerceapp.users.exception.error.EmailNotFoundException;
 import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
-import com.lumitech.ecommerceapp.users.exception.error.UsernameNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -54,7 +54,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(409).body(customErrorMessage);
     }
 
-    @ExceptionHandler(UsernameNotFoundException.class)
+    @ExceptionHandler(EmailNotFoundException.class)
     public static ResponseEntity<CustomErrorMessage> handleUsernameNotFound() {
         //Initializing the HttpServletRequest object to get the path of the request that caused the error.
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -64,7 +64,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now(),
                 409,
                 "Conflict",
-                "User not found",
+                "Email not found",
                 path
         );
         return ResponseEntity.status(404).body(customErrorMessage);

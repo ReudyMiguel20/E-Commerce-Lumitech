@@ -1,4 +1,4 @@
-package com.lumitech.ecommerceapp.common;
+package com.lumitech.ecommerceapp.common.jwt;
 
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;
