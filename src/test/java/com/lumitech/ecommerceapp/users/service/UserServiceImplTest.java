@@ -1,6 +1,7 @@
 package com.lumitech.ecommerceapp.users.service;
 
 import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
+import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.service.impl.UserServiceImpl;
 import org.assertj.core.api.Assertions;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -53,12 +55,17 @@ public class UserServiceImplTest {
                 .isExactlyInstanceOf(User.class);
 
         Assertions.assertThat(newUser)
-                .as("")
+                .as("Some fields are invalid")
                 .hasFieldOrPropertyWithValue("firstName", registerRequest.getFirstName())
                 .hasFieldOrPropertyWithValue("lastName", registerRequest.getLastName())
                 .hasFieldOrPropertyWithValue("address", registerRequest.getAddress())
                 .hasFieldOrPropertyWithValue("email", registerRequest.getEmail())
-                .hasFieldOrPropertyWithValue("password", registerRequest.getPassword());
+                .hasFieldOrPropertyWithValue("role", Role.ADMIN)
+                .hasFieldOrProperty("password");
+
+        Assertions.assertThat(newUser.getPassword())
+                .as("The password should be BCrypt encrypted with a strength of 12 \"$2a$12$\"")
+                .startsWith("$2a$12$");
     }
 
     @Test
@@ -154,12 +161,12 @@ public class UserServiceImplTest {
                 .as("The object is not type 'User'")
                 .isExactlyInstanceOf(User.class);
 
-        Assertions.assertThat(firstUser.getRoles().get(0).getRole().toString())
+        Assertions.assertThat(firstUser.getRole().toString())
                 .as("First user created should have Admin Role")
-                .isEqualTo("ROLE_ADMIN");
+                .isEqualTo("ADMIN");
 
-        Assertions.assertThat(secondUser.getRoles().get(0).getRole().toString())
+        Assertions.assertThat(secondUser.getRole().toString())
                 .as("From the second user onwards, the role should be Customer")
-                .isEqualTo("ROLE_CUSTOMER");
+                .isEqualTo("USER");
     }
 }
