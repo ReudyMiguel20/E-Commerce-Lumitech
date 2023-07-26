@@ -1,7 +1,9 @@
 package com.lumitech.ecommerceapp.users.service.impl;
 
+import com.lumitech.ecommerceapp.cart.service.CartService;
 import com.lumitech.ecommerceapp.users.exception.error.EmailNotFoundException;
 import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
+import com.lumitech.ecommerceapp.users.exception.error.UserNotACustomerException;
 import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
 import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final CartService cartService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -38,14 +41,14 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * This method creates a new user and assign a role to it before saving it to the database
+     * This method creates a new user and assign a role and a cart to it before saving it to the database
      * and returning it
      *
      * @param registerRequest the userDTO object that contains the user information
      * @return the user object that was created
      */
     @Override
-    public User createNewUserAssignRole(RegisterRequest registerRequest) {
+    public User createNewUserAssignRoleAndCart(RegisterRequest registerRequest) {
         User newUser = convertRegisterRequestToUser(registerRequest);
 
         // Throw an exception if the user already exists in the database
@@ -55,6 +58,8 @@ public class UserServiceImpl implements UserService {
 
         // Saving the user before sending it to the authorities service to assign a role to it
         newUser = decideRoleForUser(newUser);
+        newUser = saveAndReturnUser(newUser);
+        newUser = cartService.createCartAndAssignToUser(newUser);
         return userRepository.save(newUser);
     }
 
@@ -95,4 +100,12 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public void isUserCostumer(User user) {
+        if (!user.getRole().equals(Role.CUSTOMER)) {
+            throw new UserNotACustomerException();
+        }
+    }
+
 }

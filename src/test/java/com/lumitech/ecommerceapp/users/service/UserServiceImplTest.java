@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -39,7 +38,7 @@ public class UserServiceImplTest {
                 .build();
 
         //Act
-        User newUser = userService.createNewUserAssignRole(registerRequest);
+        User newUser = userService.createNewUserAssignRoleAndCart(registerRequest);
 
         //Assert
         Assertions.assertThat(userService.getAllUsers())
@@ -88,8 +87,8 @@ public class UserServiceImplTest {
                 .password("catchmeifucan")
                 .build();
 
-        User firstUser = userService.createNewUserAssignRole(firstRegisterRequest);
-        User secondUser = userService.createNewUserAssignRole(secondRegisterRequest);
+        User firstUser = userService.createNewUserAssignRoleAndCart(firstRegisterRequest);
+        User secondUser = userService.createNewUserAssignRoleAndCart(secondRegisterRequest);
 
         //Assert
         Assertions.assertThat(userService.getAllUsers().size())
@@ -137,8 +136,8 @@ public class UserServiceImplTest {
                 .password("catchmeifucan")
                 .build();
 
-        User firstUser = userService.createNewUserAssignRole(firstRegisterRequest);
-        User secondUser = userService.createNewUserAssignRole(secondRegisterRequest);
+        User firstUser = userService.createNewUserAssignRoleAndCart(firstRegisterRequest);
+        User secondUser = userService.createNewUserAssignRoleAndCart(secondRegisterRequest);
 
         //Assert
         Assertions.assertThat(userService.getAllUsers().size())

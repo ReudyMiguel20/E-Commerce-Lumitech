@@ -1,6 +1,9 @@
 package com.lumitech.ecommerceapp.product.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lumitech.ecommerceapp.cart.model.entity.Cart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -28,6 +31,12 @@ public class Product {
     private double price;
     private String category;
     private String brand;
+    private int stock;
+
+//    @ManyToOne
+//    @JoinColumn(name = "cart_id")
+//    @JsonIgnore
+//    private Cart cart;
 
     //This equal method doesn't compare the id of the object
     @Override

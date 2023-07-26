@@ -55,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
                 .price(productDTO.getPrice())
                 .category(productDTO.getCategory())
                 .brand(productDTO.getBrand())
+                .stock(productDTO.getStock())
                 .build();
     }
 
@@ -117,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product findByNameIgnoreCase(String productName) {
         return this.productRepository.findByNameIgnoreCase(productName)
-                .orElseThrow(() -> new ProductDoesntExistsException());
+                .orElseThrow(ProductDoesntExistsException::new);
     }
 
     /**
@@ -189,5 +190,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProductById(Long idProductToBeDeleted) {
         this.productRepository.deleteById(idProductToBeDeleted);
+    }
+
+    /**
+     * Updates the stock of a product, this method is used when a product is added to cart
+     *
+     * @param productToAdd - Product which is going to be updated with the new stock size
+     * @param quantity - How much stock is going to be decreased
+     */
+    @Override
+    public void updateProductStock(Product productToAdd, int quantity) {
+        productToAdd.setStock(productToAdd.getStock() - quantity);
+
+        if (productToAdd.getStock() < 0) {
+            throw new NotEnoughStockException();
+        }
+
+        saveProduct(productToAdd);
     }
 }

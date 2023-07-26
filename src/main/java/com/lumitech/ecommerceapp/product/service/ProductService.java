@@ -38,4 +38,6 @@ public interface ProductService {
     void deleteProduct(Product productToBeDeleted);
 
     void deleteProductById(Long idProductToBeDeleted);
+
+    void updateProductStock(Product productToAdd, int quantity);
 }
