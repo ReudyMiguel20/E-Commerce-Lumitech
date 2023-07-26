@@ -1,9 +1,11 @@
 package com.lumitech.ecommerceapp.common.exceptionhandler;
 
 
+import com.lumitech.ecommerceapp.auth.exception.CartNotFoundException;
 import com.lumitech.ecommerceapp.product.exception.errors.*;
 import com.lumitech.ecommerceapp.users.exception.error.EmailNotFoundException;
 import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
+import com.lumitech.ecommerceapp.users.exception.error.UserNotACustomerException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -158,18 +160,66 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EmailNotFoundException.class)
-    public static ResponseEntity<CustomErrorMessage> handleUsernameNotFound() {
+    public static ResponseEntity<CustomErrorMessage> handleEmailNotFound() {
         //Initializing the HttpServletRequest object to get the path of the request that caused the error.
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String path = request.getRequestURI();
 
         CustomErrorMessage customErrorMessage = new CustomErrorMessage(
                 LocalDateTime.now(),
-                409,
-                "Conflict",
+                404,
+                "Not Found",
                 "Email not found",
                 path
         );
         return ResponseEntity.status(404).body(customErrorMessage);
+    }
+
+    @ExceptionHandler(CartNotFoundException.class)
+    public static ResponseEntity<CustomErrorMessage> handleCartNotFound() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                404,
+                "Not Found",
+                "Cart not found",
+                path
+        );
+        return ResponseEntity.status(404).body(customErrorMessage);
+    }
+
+    @ExceptionHandler(NotEnoughStockException.class)
+    public static ResponseEntity<CustomErrorMessage> handleNotEnoughStock() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                400,
+                "Bad Request",
+                "Not Enough Stock for this quantity",
+                path
+        );
+        return ResponseEntity.status(400).body(customErrorMessage);
+    }
+
+    @ExceptionHandler(UserNotACustomerException.class)
+    public static ResponseEntity<CustomErrorMessage> handleUserNotACustomer() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                400,
+                "Bad Request",
+                "User need to be a customer to perform this action",
+                path
+        );
+        return ResponseEntity.status(400).body(customErrorMessage);
     }
 }

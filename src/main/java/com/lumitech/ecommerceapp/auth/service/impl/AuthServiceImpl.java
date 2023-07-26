@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
-        User newUser = userService.createNewUserAssignRole(request);
+        User newUser = userService.createNewUserAssignRoleAndCart(request);
 
         String jwtToken = jwtService.generateToken(newUser);
 
@@ -34,11 +34,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                request.getEmail(), request.getPassword())
         );
         User user = userService.findByEmail(request.getEmail()).orElseThrow(EmailNotFoundException::new);
         String jwtToken = jwtService.generateToken(user);

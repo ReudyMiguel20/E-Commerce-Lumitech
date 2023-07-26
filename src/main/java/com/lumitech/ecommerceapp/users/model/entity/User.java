@@ -3,6 +3,7 @@ package com.lumitech.ecommerceapp.users.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.lumitech.ecommerceapp.cart.model.entity.Cart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -71,6 +72,9 @@ public class User implements UserDetails {
 //    private List<Authorities> roles = new ArrayList<>();
 
     //Add a cart here
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
+
 
     //Add List of orders
 

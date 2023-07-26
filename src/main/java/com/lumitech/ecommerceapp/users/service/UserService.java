@@ -10,9 +10,11 @@ public interface UserService {
 
     User saveAndReturnUser(User user);
     User convertRegisterRequestToUser(RegisterRequest registerRequest);
-    User createNewUserAssignRole(RegisterRequest registerRequest);
+    User createNewUserAssignRoleAndCart(RegisterRequest registerRequest);
     void deleteAll();
     List<User> getAllUsers();
     Optional<User> findByEmail(String email);
     boolean userAlreadyExists(User userToCheck);
+
+    void isUserCostumer(User user);
 }
