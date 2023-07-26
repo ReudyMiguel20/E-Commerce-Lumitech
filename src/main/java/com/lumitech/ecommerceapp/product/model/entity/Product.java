@@ -1,9 +1,6 @@
 package com.lumitech.ecommerceapp.product.model.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lumitech.ecommerceapp.cart.model.entity.Cart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

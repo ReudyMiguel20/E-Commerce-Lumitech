@@ -1,6 +1,5 @@
 package com.lumitech.ecommerceapp.cart.model.entity;
 
-import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

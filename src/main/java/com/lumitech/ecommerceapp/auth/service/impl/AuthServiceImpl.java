@@ -43,52 +43,5 @@ public class AuthServiceImpl implements AuthService {
                 .token(jwtToken)
                 .build();
     }
-
-//    public Authorities save(Authorities authority){
-//        return authRepository.save(authority);
-//    }
-
-    /**
-     * This method assigns a role to the user and saves it to the database
-     * @param user the user object that is being created
-     * @return send the user object with the role assigned back to the UserServiceImpl
-     */
-//    public User assignRoleToUserAndSave(User user) {
-//        Authorities roleForUser = decideRoleForUser(user);
-//        authRepository.save(roleForUser);
-//
-//        // Create a list of authorities and assign it to the user
-////        List<Authorities> roleListForUser = new ArrayList<>();
-////        roleListForUser.add(roleForUser);
-////        user.setRoles(roleListForUser);
-//
-//        return user;
-//    }
-
-
-    /**
-     * This method decides the role for the user based on the number of users in the database
-     * @param user the user object that is being created
-     * @return the authorities object that contains the role for the user
-     */
-//    public Authorities decideRoleForUser(User user) {
-////        if (getAllAuthorities().size() == 0) {
-////            return Authorities.builder()
-////                    .user(user)
-////                    .role(Authorities.Roles.ROLE_ADMIN)
-////                    .build();
-////        } else {
-////            return Authorities.builder()
-////                    .user(user)
-////                    .role(Authorities.Roles.ROLE_CUSTOMER)
-////                    .build();
-////        }
-//    }
-
-//    @Override
-//    public List<Authorities> getAllAuthorities() {
-//        return authoritiesRepository.findAll();
-//    }
-
-
+    
 }
