@@ -2,6 +2,7 @@ package com.lumitech.ecommerceapp.product.service;
 
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
+import com.lumitech.ecommerceapp.product.model.entity.ProductCategory;
 import com.lumitech.ecommerceapp.product.repository.ProductRepository;
 import com.lumitech.ecommerceapp.product.service.impl.ProductServiceImpl;
 import org.assertj.core.api.Assertions;
@@ -36,7 +37,7 @@ public class ProductServiceTest {
                 .name("Test")
                 .description("Test")
                 .price(1.0)
-                .category("Test")
+                .category("smartphone")
                 .brand("Test")
                 .build();
         Product newProduct = productService.convertToProduct(productDto);
@@ -89,7 +90,7 @@ public class ProductServiceTest {
                 .name("test")
                 .description("test")
                 .price(45.32)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -97,7 +98,7 @@ public class ProductServiceTest {
                 .name("test")
                 .description("test")
                 .price(100.23)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -105,7 +106,7 @@ public class ProductServiceTest {
                 .name("test")
                 .description("test")
                 .price(56.00)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 

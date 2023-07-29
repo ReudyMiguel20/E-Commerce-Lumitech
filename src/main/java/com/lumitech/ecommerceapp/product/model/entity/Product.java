@@ -22,18 +22,21 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private String description;
-    private double price;
-    private String category;
-    private String brand;
-    private int stock;
 
-//    @ManyToOne
-//    @JoinColumn(name = "cart_id")
-//    @JsonIgnore
-//    private Cart cart;
+    private long id;
+
+    private String name;
+
+    private String description;
+
+    private double price;
+
+    @Enumerated(EnumType.STRING)
+    private ProductCategory category;
+
+    private String brand;
+
+    private int stock;
 
     //This equal method doesn't compare the id of the object
     @Override

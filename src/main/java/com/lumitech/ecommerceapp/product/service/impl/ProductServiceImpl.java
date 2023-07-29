@@ -1,9 +1,11 @@
 package com.lumitech.ecommerceapp.product.service.impl;
 
 import com.lumitech.ecommerceapp.cart.model.dto.ProductCart;
+import com.lumitech.ecommerceapp.common.utils.Utils;
 import com.lumitech.ecommerceapp.product.exception.errors.*;
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
+import com.lumitech.ecommerceapp.product.model.entity.ProductCategory;
 import com.lumitech.ecommerceapp.product.repository.ProductRepository;
 import com.lumitech.ecommerceapp.product.service.ProductService;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +15,7 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -54,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
                 .price(productDTO.getPrice())
-                .category(productDTO.getCategory())
+                .category(ProductCategory.valueOf(productDTO.getCategory().toUpperCase()))
                 .brand(productDTO.getBrand())
                 .stock(productDTO.getStock())
                 .build();
@@ -65,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
         return ProductCart.builder()
                 .name(product.getName())
                 .price(product.getPrice())
-                .category(product.getCategory())
+                .category(Utils.capitalize(product.getCategory().toString()))
                 .brand(product.getBrand())
                 .quantity(quantity)
                 .build();
