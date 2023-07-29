@@ -1,5 +1,6 @@
 package com.lumitech.ecommerceapp.product.service;
 
+import com.lumitech.ecommerceapp.cart.model.dto.ProductCart;
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 
@@ -14,6 +15,8 @@ public interface ProductService {
     Product saveAndReturnProduct(Product product);
 
     Product convertToProduct(ProductDTO productDTO);
+
+    ProductCart convertProductToProductCart(Product product, int quantity);
 
     Product findProductById(Long id);
 

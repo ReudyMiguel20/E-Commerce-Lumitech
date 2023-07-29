@@ -1,7 +1,7 @@
 package com.lumitech.ecommerceapp.cart.controller;
 
 import com.lumitech.ecommerceapp.cart.model.dto.AddProductToCartDTO;
-import com.lumitech.ecommerceapp.cart.model.dto.ProductsOnUserCart;
+import com.lumitech.ecommerceapp.cart.model.dto.UserProductCart;
 import com.lumitech.ecommerceapp.cart.service.CartItemService;
 import com.lumitech.ecommerceapp.cart.service.CartService;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
@@ -25,20 +25,19 @@ public class CartController {
     private final CartItemService cartItemService;
 
     @GetMapping
-    public ResponseEntity<ProductsOnUserCart> getUserCart(Authentication auth) {
+    public ResponseEntity<UserProductCart> getUserCart(Authentication auth) {
         User user = userService.findByEmail(auth.getName()).get();
-        ProductsOnUserCart productsOnUserCart = cartItemService.userProductsOnCart(user);
-        return ResponseEntity.ok(productsOnUserCart);
+        UserProductCart userProductCart = cartItemService.userProductsOnCart(user);
+        return ResponseEntity.ok(userProductCart);
     }
 
     /**
-     *
-     * @param auth - Authentication object from Spring Security that contains the user's email
+     * @param auth                - Authentication object from Spring Security that contains the user's email
      * @param addProductToCartDTO - DTO that contains the product name to be added to the cart
      * @return - ResponseEntity with the updated cart of the user
      */
     @PostMapping
-    public ResponseEntity<ProductsOnUserCart> addItemToCart(Authentication auth, @Valid @RequestBody AddProductToCartDTO addProductToCartDTO) {
+    public ResponseEntity<UserProductCart> addItemToCart(Authentication auth, @Valid @RequestBody AddProductToCartDTO addProductToCartDTO) {
         // Get the user and the product to add to the cart
         User user = userService.findByEmail(auth.getName()).get();
         Product productToAdd = productService.findByNameIgnoreCase(addProductToCartDTO.getProductName());
@@ -47,8 +46,8 @@ public class CartController {
         User testUser = cartItemService.saveProductToUserCart(productToAdd, user);
 
         // Get the updated cart of the user
-        ProductsOnUserCart productsOnUserCart = cartItemService.userProductsOnCart(testUser);
+        UserProductCart userProductCart = cartItemService.userProductsOnCart(testUser);
 
-        return ResponseEntity.ok(productsOnUserCart);
+        return ResponseEntity.ok(userProductCart);
     }
 }

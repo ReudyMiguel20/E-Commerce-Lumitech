@@ -1,6 +1,5 @@
 package com.lumitech.ecommerceapp.cart.model.dto;
 
-import com.lumitech.ecommerceapp.product.model.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +12,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductsOnUserCart {
+public class UserProductCart {
 
-    List<Product> productList = new ArrayList<>();
+    List<ProductCart> productList = new ArrayList<>();
 
     private double total;
 }

@@ -1,5 +1,6 @@
 package com.lumitech.ecommerceapp.product.service.impl;
 
+import com.lumitech.ecommerceapp.cart.model.dto.ProductCart;
 import com.lumitech.ecommerceapp.product.exception.errors.*;
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
@@ -56,6 +57,17 @@ public class ProductServiceImpl implements ProductService {
                 .category(productDTO.getCategory())
                 .brand(productDTO.getBrand())
                 .stock(productDTO.getStock())
+                .build();
+    }
+
+    @Override
+    public ProductCart convertProductToProductCart(Product product, int quantity) {
+        return ProductCart.builder()
+                .name(product.getName())
+                .price(product.getPrice())
+                .category(product.getCategory())
+                .brand(product.getBrand())
+                .quantity(quantity)
                 .build();
     }
 
@@ -196,7 +208,7 @@ public class ProductServiceImpl implements ProductService {
      * Updates the stock of a product, this method is used when a product is added to cart
      *
      * @param productToAdd - Product which is going to be updated with the new stock size
-     * @param quantity - How much stock is going to be decreased
+     * @param quantity     - How much stock is going to be decreased
      */
     @Override
     public void updateProductStock(Product productToAdd, int quantity) {

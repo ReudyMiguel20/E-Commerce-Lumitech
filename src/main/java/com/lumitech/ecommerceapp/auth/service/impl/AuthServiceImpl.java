@@ -43,5 +43,5 @@ public class AuthServiceImpl implements AuthService {
                 .token(jwtToken)
                 .build();
     }
-    
+
 }
