@@ -40,15 +40,16 @@ public class CartItemServiceImpl implements CartItemService {
         } else {
             cartItem = temporalCartItem;
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            // productService.updateProductStock(productToSave, 1);
         }
     }
 
     public CartItem cartItemExists(CartItem cartItemToCheck) {
-        // Variables for checking the cart id and product id to use it to compare if it already exist
+        // Variables for checking the cart id and product id to use it to compare if it already exists
         long cartId = cartItemToCheck.getCart().getId();
         long productId = cartItemToCheck.getProduct().getId();
 
-        //Checking if there's already a cart item with the same product and cart id
+        // Checking if there's already a cart item with the same product and cart id
         Optional<CartItem> foundCartItem = getAllCartItems().stream()
                 .filter(cartItemOnList -> cartItemOnList.getProduct().getId() == productId &&
                         cartItemOnList.getCart().getId() == cartId)
@@ -74,7 +75,7 @@ public class CartItemServiceImpl implements CartItemService {
 
         saveCartItem(cartItem, 1, user);
 
-        //Update the product stock
+        // Update the product stock
         productService.updateProductStock(productToSave, 1);
 
         return userService.saveAndReturnUser(user);
