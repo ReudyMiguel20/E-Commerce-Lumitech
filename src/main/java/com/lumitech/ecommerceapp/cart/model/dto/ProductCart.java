@@ -1,5 +1,6 @@
 package com.lumitech.ecommerceapp.cart.model.dto;
 
+import com.lumitech.ecommerceapp.product.model.entity.ProductCategory;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

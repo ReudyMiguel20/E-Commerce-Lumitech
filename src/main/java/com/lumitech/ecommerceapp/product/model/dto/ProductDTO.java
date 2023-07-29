@@ -1,8 +1,12 @@
 package com.lumitech.ecommerceapp.product.model.dto;
 
+import com.lumitech.ecommerceapp.product.model.entity.ProductCategory;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Objects;
@@ -25,8 +29,8 @@ public class ProductDTO {
     @Min(value = 1, message = "Price should be greater than 0")
     private double price;
 
-    @NotBlank(message = "Category cannot be blank")
     @NotEmpty(message = "Category cannot be empty")
+    @NotBlank(message = "Category cannot be empty")
     private String category;
 
     @NotBlank(message = "Brand cannot be blank")

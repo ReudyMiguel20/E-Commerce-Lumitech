@@ -2,6 +2,7 @@ package com.lumitech.ecommerceapp.product.service;
 
 import com.lumitech.ecommerceapp.product.model.dto.ProductDTO;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
+import com.lumitech.ecommerceapp.product.model.entity.ProductCategory;
 import com.lumitech.ecommerceapp.product.service.impl.ProductServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -35,7 +36,7 @@ class ProductServiceImplTest {
                 .name("Test")
                 .description("Test")
                 .price(1.0)
-                .category("Test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("Test")
                 .build();
 
@@ -124,7 +125,7 @@ class ProductServiceImplTest {
                 .name("Test")
                 .description("Test")
                 .price(1.0)
-                .category("Test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("Test")
                 .build();
 
@@ -132,7 +133,7 @@ class ProductServiceImplTest {
                 .name("Test2")
                 .description("Tes2")
                 .price(1.0)
-                .category("Test2")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("Test2")
                 .build();
 
@@ -198,7 +199,7 @@ class ProductServiceImplTest {
                 .name("product")
                 .description("test")
                 .price(1)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -206,7 +207,7 @@ class ProductServiceImplTest {
                 .name("product")
                 .description("test1")
                 .price(1)
-                .category("test")
+                .category("smartphone")
                 .brand("test")
                 .build();
 
@@ -237,7 +238,7 @@ class ProductServiceImplTest {
                 .name("samsung 10")
                 .description("test")
                 .price(1)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -245,7 +246,7 @@ class ProductServiceImplTest {
                 .name("dont delete me")
                 .description("test")
                 .price(1)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
         productService.saveProduct(productOne);
@@ -288,7 +289,7 @@ class ProductServiceImplTest {
                 .name("samsung 10")
                 .description("test")
                 .price(1)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -296,7 +297,7 @@ class ProductServiceImplTest {
                 .name("dont delete me")
                 .description("test")
                 .price(1)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
         productService.saveProduct(productOne);
@@ -336,7 +337,7 @@ class ProductServiceImplTest {
                 .name("test")
                 .description("test")
                 .price(45.32)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -344,7 +345,7 @@ class ProductServiceImplTest {
                 .name("test")
                 .description("test")
                 .price(100.23)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -352,7 +353,7 @@ class ProductServiceImplTest {
                 .name("test")
                 .description("test")
                 .price(56.00)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
         productService.saveProduct(productOne);
@@ -388,7 +389,7 @@ class ProductServiceImplTest {
                 .name("test")
                 .description("test")
                 .price(45.32)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -396,7 +397,7 @@ class ProductServiceImplTest {
                 .name("test")
                 .description("test")
                 .price(100.23)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -404,7 +405,7 @@ class ProductServiceImplTest {
                 .name("test")
                 .description("test")
                 .price(56.00)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
         productService.saveProduct(productOne);
@@ -440,7 +441,7 @@ class ProductServiceImplTest {
                 .name("Zerox Keyboard")
                 .description("test")
                 .price(45.32)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -448,7 +449,7 @@ class ProductServiceImplTest {
                 .name("ASUS Motherboard")
                 .description("test")
                 .price(100.23)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -456,7 +457,7 @@ class ProductServiceImplTest {
                 .name("Logitech Mouse G22")
                 .description("test")
                 .price(56.00)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
         productService.saveProduct(productOne);
@@ -492,7 +493,7 @@ class ProductServiceImplTest {
                 .name("Zerox Keyboard")
                 .description("test")
                 .price(45.32)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -500,7 +501,7 @@ class ProductServiceImplTest {
                 .name("ASUS Motherboard")
                 .description("test")
                 .price(100.23)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
 
@@ -508,7 +509,7 @@ class ProductServiceImplTest {
                 .name("Logitech Mouse G22")
                 .description("test")
                 .price(56.00)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("test")
                 .build();
         productService.saveProduct(productOne);
@@ -544,7 +545,7 @@ class ProductServiceImplTest {
                 .name("Logitech Mouse G22")
                 .description("test")
                 .price(56.00)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("logitech")
                 .build();
 
@@ -552,7 +553,7 @@ class ProductServiceImplTest {
                 .name("Zerox Keyboard")
                 .description("test")
                 .price(45.32)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("zerox")
                 .build();
 
@@ -560,7 +561,7 @@ class ProductServiceImplTest {
                 .name("ASUS Motherboard")
                 .description("test")
                 .price(100.23)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("asus")
                 .build();
         productService.saveProduct(productOne);
@@ -596,7 +597,7 @@ class ProductServiceImplTest {
                 .name("Logitech Mouse G22")
                 .description("test")
                 .price(56.00)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("logitech")
                 .build();
 
@@ -604,7 +605,7 @@ class ProductServiceImplTest {
                 .name("Zerox Keyboard")
                 .description("test")
                 .price(45.32)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("zerox")
                 .build();
 
@@ -612,7 +613,7 @@ class ProductServiceImplTest {
                 .name("ASUS Motherboard")
                 .description("test")
                 .price(100.23)
-                .category("test")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("asus")
                 .build();
         productService.saveProduct(productOne);
@@ -648,7 +649,7 @@ class ProductServiceImplTest {
                 .name("Logitech Mouse G22")
                 .description("test")
                 .price(56.00)
-                .category("Accessory")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("logitech")
                 .build();
 
@@ -656,7 +657,7 @@ class ProductServiceImplTest {
                 .name("Zerox Keyboard")
                 .description("test")
                 .price(45.32)
-                .category("")
+                .category(ProductCategory.ACCESSORY)
                 .brand("Accessory")
                 .build();
 
@@ -664,7 +665,7 @@ class ProductServiceImplTest {
                 .name("ASUS Motherboard")
                 .description("PC Component")
                 .price(100.23)
-                .category("PC Component")
+                .category(ProductCategory.WEARABLE)
                 .brand("asus")
                 .build();
         productService.saveProduct(productOne);
@@ -688,7 +689,7 @@ class ProductServiceImplTest {
                 .isEqualTo(productTwo);
 
         Assertions.assertThat(productList.get(2))
-                .as("The first product category should be " + productThree.getCategory())
+                .as("The last product category should be " + productThree.getCategory())
                 .isEqualTo(productThree);
     }
 
@@ -700,7 +701,7 @@ class ProductServiceImplTest {
                 .name("Logitech Mouse G22")
                 .description("test")
                 .price(56.00)
-                .category("Accessory")
+                .category(ProductCategory.SMARTPHONE)
                 .brand("logitech")
                 .build();
 
@@ -708,7 +709,7 @@ class ProductServiceImplTest {
                 .name("Zerox Keyboard")
                 .description("test")
                 .price(45.32)
-                .category("")
+                .category(ProductCategory.ACCESSORY)
                 .brand("Accessory")
                 .build();
 
@@ -716,7 +717,7 @@ class ProductServiceImplTest {
                 .name("ASUS Motherboard")
                 .description("PC Component")
                 .price(100.23)
-                .category("PC Component")
+                .category(ProductCategory.WEARABLE)
                 .brand("asus")
                 .build();
         productService.saveProduct(productOne);
