@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                     auth
                             .requestMatchers(h2RequestMatcher).permitAll()
                             .requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers("/").permitAll()
                             .requestMatchers(HttpMethod.POST, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                             .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                             .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
@@ -54,7 +55,8 @@ public class SecurityConfiguration {
 
         http.cors().disable();
         http.headers().frameOptions().disable();
-        http.httpBasic();
+        http.httpBasic()
+//                .and().formLogin();
 
         return http.build();
     }
