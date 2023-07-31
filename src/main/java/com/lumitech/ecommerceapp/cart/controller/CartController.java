@@ -11,6 +11,8 @@ import com.lumitech.ecommerceapp.users.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +33,12 @@ public class CartController {
         return ResponseEntity.ok(userProductCart);
     }
 
+//    @Secured("ROLE_ADMIN")
+    /**
+     * @param auth - Authentication object from Spring Security that contains the user's email and role (ROLE_ADMIN)
+     * @param id - id of the user to get the cart from with (ROLE_CUSTOMER)
+     * @return - ResponseEntity with the cart of the user with role ROLE_CUSTOMER
+     */
     @GetMapping("/{id}")
     public ResponseEntity<UserProductCart> getUserCartById(Authentication auth, @PathVariable int id) {
         userService.isUserAdmin(userService.findByEmail(auth.getName()).get());
