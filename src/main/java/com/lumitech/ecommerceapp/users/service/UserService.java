@@ -14,7 +14,12 @@ public interface UserService {
     void deleteAll();
     List<User> getAllUsers();
     Optional<User> findByEmail(String email);
+
+    Optional<User> findById(long id);
+
     boolean userAlreadyExists(User userToCheck);
 
     void isUserCostumer(User user);
+
+    void isUserAdmin(User user);
 }

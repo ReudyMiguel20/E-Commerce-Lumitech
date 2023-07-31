@@ -1,5 +1,6 @@
 package com.lumitech.ecommerceapp.cart.service.impl;
 
+import com.lumitech.ecommerceapp.cart.exception.NonCustomerCartAccessException;
 import com.lumitech.ecommerceapp.cart.model.dto.ProductCart;
 import com.lumitech.ecommerceapp.cart.model.dto.UserProductCart;
 import com.lumitech.ecommerceapp.cart.model.entity.CartItem;
@@ -7,6 +8,7 @@ import com.lumitech.ecommerceapp.cart.repository.CartItemRepository;
 import com.lumitech.ecommerceapp.cart.service.CartItemService;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.service.ProductService;
+import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,9 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final UserService userService;
     private final ProductService productService;
+
+
+//    public CartItem updateCartItemAndReturn(User user)
 
     /**
      * Method that saves a CartItem object to the database, if the CartItem already exists then it only updates
@@ -65,7 +70,7 @@ public class CartItemServiceImpl implements CartItemService {
      */
     @Override
     public User saveProductToUserCart(Product productToSave, User user) {
-        userService.isUserCostumer(user);
+        validateUserIsCustomerForCart(user);
 
         CartItem cartItem = CartItem.builder()
                 .product(productToSave)
@@ -91,7 +96,7 @@ public class CartItemServiceImpl implements CartItemService {
      */
     @Override
     public UserProductCart userProductsOnCart(User user) {
-        userService.isUserCostumer(user);
+        validateUserIsCustomerForCart(user);
 
         List<CartItem> userCart = user.getCart().getCartItems();
 
@@ -114,5 +119,38 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public List<CartItem> getAllCartItems() {
         return cartItemRepository.findAll();
+    }
+
+    /* Method that confirms that the user is a 'Customer' in order to check their cart. Any other role isn't able to check
+       their cart because they are not allowed to buy products from the store */
+    @Override
+    public void validateUserIsCustomerForCart(User user) {
+        if (!user.getRole().equals(Role.CUSTOMER)) {
+            throw new NonCustomerCartAccessException();
+        }
+    }
+
+    /**
+     * Deletes a product from the user cart and returns the user with the product deleted from his cart
+     *
+     * @param productToDelete - the product to delete from the user cart
+     * @param user - the user to delete the product from his cart
+     * @return - the user with the product deleted from his cart
+     */
+    @Override
+    public User deleteProductFromUserCart(Product productToDelete, User user) {
+        validateUserIsCustomerForCart(user);
+
+        // Assigning the user cart to a new variable for easier access to the cart items list
+        List<CartItem> userCart = user.getCart().getCartItems();
+
+        // Finding the cart item to delete from the database
+        CartItem cartItemToDelete = cartItemRepository.findCartItemByCartIdAndProductId(user.getCart().getId(), productToDelete.getId()).get();
+
+        // Removing the product from the user cart and deleting the cart item from the database
+        userCart.removeIf(product -> product.getProduct().getName().equals(productToDelete.getName()));
+        cartItemRepository.delete(cartItemToDelete);
+
+        return userService.saveAndReturnUser(user);
     }
 }

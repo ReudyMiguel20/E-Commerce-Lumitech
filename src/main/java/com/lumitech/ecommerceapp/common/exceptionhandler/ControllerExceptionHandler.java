@@ -2,10 +2,9 @@ package com.lumitech.ecommerceapp.common.exceptionhandler;
 
 
 import com.lumitech.ecommerceapp.auth.exception.CartNotFoundException;
+import com.lumitech.ecommerceapp.cart.exception.NonCustomerCartAccessException;
 import com.lumitech.ecommerceapp.product.exception.errors.*;
-import com.lumitech.ecommerceapp.users.exception.error.EmailNotFoundException;
-import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
-import com.lumitech.ecommerceapp.users.exception.error.UserNotACustomerException;
+import com.lumitech.ecommerceapp.users.exception.error.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -215,9 +214,57 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         CustomErrorMessage customErrorMessage = new CustomErrorMessage(
                 LocalDateTime.now(),
+                403,
+                "Forbidden",
+                "User need to be a customer to perform this action",
+                path
+        );
+        return ResponseEntity.status(403).body(customErrorMessage);
+    }
+
+    @ExceptionHandler(UserNotAnAdminException.class)
+    public static ResponseEntity<CustomErrorMessage> handleUserNotAnAdmin() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                403,
+                "Forbidden",
+                "User need to be an Admin to perform this action",
+                path
+        );
+        return ResponseEntity.status(403).body(customErrorMessage);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public static ResponseEntity<CustomErrorMessage> handleUserNotFound() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
+                404,
+                "Not Found",
+                "User doesn't exist",
+                path
+        );
+        return ResponseEntity.status(404).body(customErrorMessage);
+    }
+
+    @ExceptionHandler(NonCustomerCartAccessException.class)
+    public static ResponseEntity<CustomErrorMessage> handleCheckingAdminCart() {
+        //Initializing the HttpServletRequest object to get the path of the request that caused the error.
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String path = request.getRequestURI();
+
+        CustomErrorMessage customErrorMessage = new CustomErrorMessage(
+                LocalDateTime.now(),
                 400,
                 "Bad Request",
-                "User need to be a customer to perform this action",
+                "Only customers are allowed to have a cart",
                 path
         );
         return ResponseEntity.status(400).body(customErrorMessage);

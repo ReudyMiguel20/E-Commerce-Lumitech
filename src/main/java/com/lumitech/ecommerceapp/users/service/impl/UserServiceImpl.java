@@ -1,9 +1,7 @@
 package com.lumitech.ecommerceapp.users.service.impl;
 
 import com.lumitech.ecommerceapp.cart.service.CartService;
-import com.lumitech.ecommerceapp.users.exception.error.EmailNotFoundException;
-import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
-import com.lumitech.ecommerceapp.users.exception.error.UserNotACustomerException;
+import com.lumitech.ecommerceapp.users.exception.error.*;
 import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
 import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
@@ -76,7 +74,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByEmail(String email) {
         return Optional.ofNullable(userRepository.findByEmail(email)
-                .orElseThrow(EmailNotFoundException::new));
+                .orElseThrow(UserNotFoundException::new));
+    }
+
+    @Override
+    public Optional<User> findById(long id) {
+        return Optional.ofNullable(userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new));
     }
 
     @Override
@@ -105,6 +109,13 @@ public class UserServiceImpl implements UserService {
     public void isUserCostumer(User user) {
         if (!user.getRole().equals(Role.CUSTOMER)) {
             throw new UserNotACustomerException();
+        }
+    }
+
+    @Override
+    public void isUserAdmin(User user) {
+        if (!user.getRole().equals(Role.ADMIN)) {
+            throw new UserNotAnAdminException();
         }
     }
 
