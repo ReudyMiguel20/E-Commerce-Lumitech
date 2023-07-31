@@ -55,7 +55,7 @@ public class SecurityConfiguration {
 
         http.cors().disable();
         http.headers().frameOptions().disable();
-        http.httpBasic()
+        http.httpBasic();
 //                .and().formLogin();
 
         return http.build();
