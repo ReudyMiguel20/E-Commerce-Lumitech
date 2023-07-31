@@ -31,6 +31,15 @@ public class CartController {
         return ResponseEntity.ok(userProductCart);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserProductCart> getUserCartById(Authentication auth, @PathVariable int id) {
+        userService.isUserAdmin(userService.findByEmail(auth.getName()).get());
+
+        User customer = userService.findById(id).get();
+        UserProductCart userProductCart = cartItemService.userProductsOnCart(customer);
+        return ResponseEntity.ok(userProductCart);
+    }
+
     /**
      * @param auth                - Authentication object from Spring Security that contains the user's email
      * @param addProductToCartDTO - DTO that contains the product name to be added to the cart

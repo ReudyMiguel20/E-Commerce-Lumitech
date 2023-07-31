@@ -1,5 +1,6 @@
 package com.lumitech.ecommerceapp.cart.service.impl;
 
+import com.lumitech.ecommerceapp.cart.exception.NonCustomerCartAccessException;
 import com.lumitech.ecommerceapp.cart.model.dto.ProductCart;
 import com.lumitech.ecommerceapp.cart.model.dto.UserProductCart;
 import com.lumitech.ecommerceapp.cart.model.entity.CartItem;
@@ -7,6 +8,7 @@ import com.lumitech.ecommerceapp.cart.repository.CartItemRepository;
 import com.lumitech.ecommerceapp.cart.service.CartItemService;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.service.ProductService;
+import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +67,7 @@ public class CartItemServiceImpl implements CartItemService {
      */
     @Override
     public User saveProductToUserCart(Product productToSave, User user) {
-        userService.isUserCostumer(user);
+        validateUserIsCustomerForCart(user);
 
         CartItem cartItem = CartItem.builder()
                 .product(productToSave)
@@ -91,7 +93,7 @@ public class CartItemServiceImpl implements CartItemService {
      */
     @Override
     public UserProductCart userProductsOnCart(User user) {
-        userService.isUserCostumer(user);
+        validateUserIsCustomerForCart(user);
 
         List<CartItem> userCart = user.getCart().getCartItems();
 
@@ -114,5 +116,13 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public List<CartItem> getAllCartItems() {
         return cartItemRepository.findAll();
+    }
+
+    /* Method that confirms that the user is a 'Customer' in order to check their cart. Any other role isn't able to check
+       their cart because they are not allowed to buy products from the store */
+    public void validateUserIsCustomerForCart(User user) {
+        if (!user.getRole().equals(Role.CUSTOMER)) {
+            throw new NonCustomerCartAccessException();
+        }
     }
 }
