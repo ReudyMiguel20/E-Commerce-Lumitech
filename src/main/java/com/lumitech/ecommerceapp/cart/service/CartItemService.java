@@ -14,4 +14,10 @@ public interface CartItemService {
     UserProductCart userProductsOnCart(User user);
 
     List<CartItem> getAllCartItems();
+
+    /* Method that confirms that the user is a 'Customer' in order to check their cart. Any other role isn't able to check
+           their cart because they are not allowed to buy products from the store */
+    void validateUserIsCustomerForCart(User user);
+
+    User deleteProductFromUserCart(Product productToDelete, User user);
 }

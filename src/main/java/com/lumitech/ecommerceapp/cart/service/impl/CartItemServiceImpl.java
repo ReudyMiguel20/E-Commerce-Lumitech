@@ -25,6 +25,9 @@ public class CartItemServiceImpl implements CartItemService {
     private final UserService userService;
     private final ProductService productService;
 
+
+//    public CartItem updateCartItemAndReturn(User user)
+
     /**
      * Method that saves a CartItem object to the database, if the CartItem already exists then it only updates
      * the values, otherwise it creates a new CartItem, assign the cartItem to the user and persist it to the database
@@ -120,9 +123,34 @@ public class CartItemServiceImpl implements CartItemService {
 
     /* Method that confirms that the user is a 'Customer' in order to check their cart. Any other role isn't able to check
        their cart because they are not allowed to buy products from the store */
+    @Override
     public void validateUserIsCustomerForCart(User user) {
         if (!user.getRole().equals(Role.CUSTOMER)) {
             throw new NonCustomerCartAccessException();
         }
+    }
+
+    /**
+     * Deletes a product from the user cart and returns the user with the product deleted from his cart
+     *
+     * @param productToDelete - the product to delete from the user cart
+     * @param user - the user to delete the product from his cart
+     * @return - the user with the product deleted from his cart
+     */
+    @Override
+    public User deleteProductFromUserCart(Product productToDelete, User user) {
+        validateUserIsCustomerForCart(user);
+
+        // Assigning the user cart to a new variable for easier access to the cart items list
+        List<CartItem> userCart = user.getCart().getCartItems();
+
+        // Finding the cart item to delete from the database
+        CartItem cartItemToDelete = cartItemRepository.findCartItemByCartIdAndProductId(user.getCart().getId(), productToDelete.getId()).get();
+
+        // Removing the product from the user cart and deleting the cart item from the database
+        userCart.removeIf(product -> product.getProduct().getName().equals(productToDelete.getName()));
+        cartItemRepository.delete(cartItemToDelete);
+
+        return userService.saveAndReturnUser(user);
     }
 }
