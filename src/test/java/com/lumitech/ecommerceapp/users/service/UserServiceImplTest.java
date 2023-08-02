@@ -1,6 +1,7 @@
 package com.lumitech.ecommerceapp.users.service;
 
 import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
+import com.lumitech.ecommerceapp.users.model.dto.UserNewPasswordDTO;
 import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.service.impl.UserServiceImpl;
@@ -168,4 +169,32 @@ public class UserServiceImplTest {
                 .as("From the second user onwards, the role should be Customer")
                 .isEqualTo("CUSTOMER");
     }
+
+//    @Test
+//    @DisplayName("Assigning Admin and Customer Roles to Two Users")
+//    void changingOldPassword() {
+//        //Arrange
+//        RegisterRequest firstRegisterRequest = RegisterRequest.builder()
+//                .firstName("Mike")
+//                .lastName("Carmine")
+//                .address("The green street #56")
+//                .email("google@hotmail.com")
+//                .password("catchmeifucan")
+//                .build();
+//
+//        User firstUser = userService.createNewUserAssignRoleAndCart(firstRegisterRequest);
+//
+//        UserNewPasswordDTO userNewPassword = UserNewPasswordDTO.builder()
+//                .currentPassword("catchmeifucan")
+//                .newPassword("cantcatchme")
+//                .build();
+//
+//        //Act
+//        userService.changeUserPassword(firstUser, userNewPassword);
+//
+//        //Assert
+//        Assertions.assertThat(userService.confirmOldPasswordIsCorrect(firstUser, userNewPassword))
+//                .as("Old password is incorrect.")
+//                .isEqualTo(true);
+//    }
 }
