@@ -213,7 +213,7 @@ public class ProductServiceImpl implements ProductService {
      * @param quantity     - How much stock is going to be decreased
      */
     @Override
-    public void updateProductStock(Product productToAdd, int quantity) {
+    public void reduceProductStock(Product productToAdd, int quantity) {
         productToAdd.setStock(productToAdd.getStock() - quantity);
 
         if (productToAdd.getStock() < 0) {
@@ -221,5 +221,12 @@ public class ProductServiceImpl implements ProductService {
         }
 
         saveProduct(productToAdd);
+    }
+
+    @Override
+    public void restoreProductStock(Product product, int quantity) {
+        product.setStock(product.getStock() + quantity);
+
+        saveProduct(product);
     }
 }
