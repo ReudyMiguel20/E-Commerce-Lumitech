@@ -57,9 +57,10 @@ public class CartController {
         // Get the user and the product to add to the cart
         User user = userService.findByEmail(auth.getName()).get();
         Product productToAdd = productService.findByNameIgnoreCase(addProductToCartDTO.getProductName());
+        int quantity = addProductToCartDTO.getQuantity();
 
         // Add the product to the User cart
-        User testUser = cartItemService.saveProductToUserCart(productToAdd, user);
+        User testUser = cartItemService.saveProductToUserCart(productToAdd, quantity ,user);
 
         // Get the updated cart of the user
         UserProductCart userProductCart = cartItemService.userProductsOnCart(testUser);

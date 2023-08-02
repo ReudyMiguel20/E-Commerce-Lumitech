@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CartItemService {
 
-    User saveProductToUserCart(Product productToSave, User user);
+    User saveProductToUserCart(Product productToSave, int quantity ,User user);
 
     UserProductCart userProductsOnCart(User user);
 

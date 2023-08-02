@@ -69,19 +69,19 @@ public class CartItemServiceImpl implements CartItemService {
      * @return - the user with the product saved to his cart
      */
     @Override
-    public User saveProductToUserCart(Product productToSave, User user) {
+    public User saveProductToUserCart(Product productToSave, int quantity ,User user) {
         validateUserIsCustomerForCart(user);
 
         CartItem cartItem = CartItem.builder()
                 .product(productToSave)
                 .cart(user.getCart())
-                .quantity(1)
+                .quantity(quantity)
                 .build();
 
-        saveCartItem(cartItem, 1, user);
-
         // Update the product stock
-        productService.reduceProductStock(productToSave, 1);
+        productService.reduceProductStock(productToSave, quantity);
+
+        saveCartItem(cartItem, quantity, user);
 
         return userService.saveAndReturnUser(user);
     }
