@@ -1,7 +1,10 @@
 package com.lumitech.ecommerceapp.users.service.impl;
 
 import com.lumitech.ecommerceapp.cart.service.CartService;
-import com.lumitech.ecommerceapp.users.exception.error.*;
+import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
+import com.lumitech.ecommerceapp.users.exception.error.UserNotACustomerException;
+import com.lumitech.ecommerceapp.users.exception.error.UserNotAnAdminException;
+import com.lumitech.ecommerceapp.users.exception.error.UserNotFoundException;
 import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
 import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;

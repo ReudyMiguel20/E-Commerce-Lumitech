@@ -4,7 +4,6 @@ import com.lumitech.ecommerceapp.cart.model.dto.AddProductToCartDTO;
 import com.lumitech.ecommerceapp.cart.model.dto.DeleteProductFromCartDTO;
 import com.lumitech.ecommerceapp.cart.model.dto.UserProductCart;
 import com.lumitech.ecommerceapp.cart.service.CartItemService;
-import com.lumitech.ecommerceapp.cart.service.CartService;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import com.lumitech.ecommerceapp.product.service.ProductService;
 import com.lumitech.ecommerceapp.users.model.entity.User;
@@ -12,8 +11,6 @@ import com.lumitech.ecommerceapp.users.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CartController {
 
-    private final CartService cartService;
     private final ProductService productService;
     private final UserService userService;
     private final CartItemService cartItemService;
