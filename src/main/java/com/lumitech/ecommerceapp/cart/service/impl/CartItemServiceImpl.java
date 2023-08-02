@@ -69,19 +69,19 @@ public class CartItemServiceImpl implements CartItemService {
      * @return - the user with the product saved to his cart
      */
     @Override
-    public User saveProductToUserCart(Product productToSave, User user) {
+    public User saveProductToUserCart(Product productToSave, int quantity ,User user) {
         validateUserIsCustomerForCart(user);
 
         CartItem cartItem = CartItem.builder()
                 .product(productToSave)
                 .cart(user.getCart())
-                .quantity(1)
+                .quantity(quantity)
                 .build();
 
-        saveCartItem(cartItem, 1, user);
-
         // Update the product stock
-        productService.updateProductStock(productToSave, 1);
+        productService.reduceProductStock(productToSave, quantity);
+
+        saveCartItem(cartItem, quantity, user);
 
         return userService.saveAndReturnUser(user);
     }
@@ -144,12 +144,17 @@ public class CartItemServiceImpl implements CartItemService {
         // Assigning the user cart to a new variable for easier access to the cart items list
         List<CartItem> userCart = user.getCart().getCartItems();
 
-        // Finding the cart item to delete from the database
+        // Finding the cart item to delete from the database and also getting the product and quantity to restore the stock back
         CartItem cartItemToDelete = cartItemRepository.findCartItemByCartIdAndProductId(user.getCart().getId(), productToDelete.getId()).get();
+        int stockQuantityToRestoreBack = cartItemToDelete.getQuantity();
+        Product productToRestoreStock = cartItemToDelete.getProduct();
 
         // Removing the product from the user cart and deleting the cart item from the database
         userCart.removeIf(product -> product.getProduct().getName().equals(productToDelete.getName()));
         cartItemRepository.delete(cartItemToDelete);
+
+        //Restoring the stock from the product deleted from the cart back to the product list
+        productService.restoreProductStock(productToRestoreStock, stockQuantityToRestoreBack);
 
         return userService.saveAndReturnUser(user);
     }
