@@ -1,6 +1,8 @@
 package com.lumitech.ecommerceapp.users.service;
 
+import com.lumitech.ecommerceapp.common.dto.StatusMessage;
 import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
+import com.lumitech.ecommerceapp.users.model.dto.UserNewPasswordDTO;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 
 import java.util.List;
@@ -22,4 +24,10 @@ public interface UserService {
     void isUserCostumer(User user);
 
     void isUserAdmin(User user);
+
+    void updateUserPassword(User user, String newPassword);
+
+    boolean confirmOldPasswordIsCorrect(User user, UserNewPasswordDTO userNewPasswordDTO);
+
+    StatusMessage changeUserPassword(User user, UserNewPasswordDTO userNewPasswordDTO);
 }

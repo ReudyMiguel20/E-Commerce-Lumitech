@@ -1,11 +1,13 @@
 package com.lumitech.ecommerceapp.users.service.impl;
 
 import com.lumitech.ecommerceapp.cart.service.CartService;
+import com.lumitech.ecommerceapp.common.dto.StatusMessage;
 import com.lumitech.ecommerceapp.users.exception.error.UserAlreadyExistsException;
 import com.lumitech.ecommerceapp.users.exception.error.UserNotACustomerException;
 import com.lumitech.ecommerceapp.users.exception.error.UserNotAnAdminException;
 import com.lumitech.ecommerceapp.users.exception.error.UserNotFoundException;
 import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
+import com.lumitech.ecommerceapp.users.model.dto.UserNewPasswordDTO;
 import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.repository.UserRepository;
@@ -121,5 +123,33 @@ public class UserServiceImpl implements UserService {
             throw new UserNotAnAdminException();
         }
     }
+
+    @Override
+    public void updateUserPassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        saveAndReturnUser(user);
+    }
+
+    @Override
+    public boolean confirmOldPasswordIsCorrect(User user, UserNewPasswordDTO userNewPasswordDTO) {
+        return passwordEncoder.matches(userNewPasswordDTO.getCurrentPassword(), user.getPassword());
+    }
+
+    @Override
+    public StatusMessage changeUserPassword(User user, UserNewPasswordDTO userNewPasswordDTO) {
+        if (confirmOldPasswordIsCorrect(user, userNewPasswordDTO)) {
+            updateUserPassword(user, userNewPasswordDTO.getNewPassword());
+
+            return new StatusMessage().builder()
+                    .message("Password updated successfully")
+                    .build();
+        } else {
+            return new StatusMessage().builder()
+                    .message("oops")
+                    .build();
+        }
+    }
+
+
 
 }
