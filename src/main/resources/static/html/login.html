@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="../css/form.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+
+<h2>Create new account</h2>
+
+<form id="login-form">
+
+    <label for="inputFirstName" class="col-form-label">First Name</label>
+    <input name="firstname" class="form-control" id=inputFirstName type="text" placeholder="Default input" aria-label="default input example">
+
+    <label for="inputLastName" class="col-form-label">Last Name</label>
+    <input name="lastname" class="form-control" id=inputLastName type="text" placeholder="Default input" aria-label="default input example">
+
+    <label for="inputAddress" class="col-form-label">Address</label>
+    <input name="address" class="form-control" id=inputAddress type="text" placeholder="Default input" aria-label="default input example">
+
+    <div class="mb-3">
+        <label for="inputEmail" class="form-label">Email address</label>
+        <input name="email" type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+    </div>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label for="inputPassword" class="col-form-label">Password</label>
+        </div>
+        <div class="col-auto">
+            <input name="password" type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpInline">
+        </div>
+
+        <div class="col-auto">
+    <span id="passwordHelpInline" class="form-text">
+      Must be 8-20 characters long.
+    </span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Primary</button>
+    </div>
+
+</form>
+
+<script src="../js/form.js"></script>
+</body>
+</html>

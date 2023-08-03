@@ -1,0 +1,15 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    padding-right: 400px;
+    padding-left: 10px;
+}
+
+.login-form .form-control {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.form-control {
+
+}

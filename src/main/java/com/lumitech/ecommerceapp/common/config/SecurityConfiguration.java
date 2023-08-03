@@ -46,7 +46,7 @@ public class SecurityConfiguration {
                             .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                             .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                             .anyRequest()
-                            .authenticated();
+                            .permitAll();
                 })
 
                 .sessionManagement()

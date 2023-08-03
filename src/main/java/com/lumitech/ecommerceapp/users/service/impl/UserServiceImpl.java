@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         User newUser = convertRegisterRequestToUser(registerRequest);
 
         // Throw an exception if the user already exists in the database
-        if (userAlreadyExists(newUser)){
+        if (userAlreadyExists(newUser)) {
             throw new UserAlreadyExistsException();
         }
 
@@ -131,13 +131,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean confirmOldPasswordIsCorrect(User user, UserNewPasswordDTO userNewPasswordDTO) {
-        return passwordEncoder.matches(userNewPasswordDTO.getCurrentPassword(), user.getPassword());
+    public boolean confirmOldPasswordIsCorrect(User user, String currentPassword) {
+        return passwordEncoder.matches(currentPassword, user.getPassword());
     }
 
     @Override
     public StatusMessage changeUserPassword(User user, UserNewPasswordDTO userNewPasswordDTO) {
-        if (confirmOldPasswordIsCorrect(user, userNewPasswordDTO)) {
+        if (confirmOldPasswordIsCorrect(user, userNewPasswordDTO.getCurrentPassword())) {
             updateUserPassword(user, userNewPasswordDTO.getNewPassword());
 
             return new StatusMessage().builder()
@@ -149,7 +149,6 @@ public class UserServiceImpl implements UserService {
                     .build();
         }
     }
-
 
 
 }

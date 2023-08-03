@@ -27,7 +27,7 @@ public interface UserService {
 
     void updateUserPassword(User user, String newPassword);
 
-    boolean confirmOldPasswordIsCorrect(User user, UserNewPasswordDTO userNewPasswordDTO);
+    boolean confirmOldPasswordIsCorrect(User user, String currentPassword);
 
     StatusMessage changeUserPassword(User user, UserNewPasswordDTO userNewPasswordDTO);
 }

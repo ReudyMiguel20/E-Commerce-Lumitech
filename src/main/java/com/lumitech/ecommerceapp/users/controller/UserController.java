@@ -26,7 +26,6 @@ public class UserController {
         User userToChangePassword = userService.findByEmail(auth.getName()).get();
 
         StatusMessage statusMessage = userService.changeUserPassword(userToChangePassword, userNewPasswordDTO);
-
         return ResponseEntity.ok(statusMessage);
     }
 }
