@@ -16,8 +16,18 @@ public class ViewController {
         return "html/index.html";
     }
 
+    @GetMapping("/register")
+    public String getRegisterPage() {
+        return "html/register.html";
+    }
+
     @GetMapping("/login")
     public String getLoginPage() {
         return "html/login.html";
+    }
+
+    @GetMapping("/cart")
+    public String getCartPage() {
+        return "html/usercart.html";
     }
 }

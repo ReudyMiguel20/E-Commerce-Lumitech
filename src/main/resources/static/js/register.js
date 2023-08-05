@@ -1,10 +1,10 @@
 const button = document.getElementById("btn");
-const form = document.getElementById("login-form");
+const register = document.getElementById("login-form");
 
-form.addEventListener("submit", function (e) {
+register.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const payload = new FormData(form);
+    const payload = new FormData(register);
 
     // Convert FormData to JSON object
     const payloadJSON = {};

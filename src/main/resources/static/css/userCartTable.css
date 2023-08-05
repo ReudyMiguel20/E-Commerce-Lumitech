@@ -1,0 +1,29 @@
+#cart {
+    border: 3px solid #ccc;
+    width: 1000px;
+
+}
+
+#total {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding-right: 100px;
+
+}
+
+#total-text{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding-right: 100px;
+
+}
+
+.checkout-container {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 100px;
+    margin-top: 10px;
+}
+

@@ -36,6 +36,8 @@ public class Product {
 
     private String brand;
 
+    private String image;
+
     private int stock;
 
     //This equal method doesn't compare the id of the object
