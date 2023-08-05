@@ -33,6 +33,10 @@ public class ProductDTO {
     @NotEmpty(message = "Brand cannot be empty")
     private String brand;
 
+    @NotBlank(message = "Brand cannot be blank")
+    @NotEmpty(message = "Brand cannot be empty")
+    private String image;
+
     @Min(value = 1, message = "Stock value should be greater than 0 when adding a new product")
     private int stock;
 

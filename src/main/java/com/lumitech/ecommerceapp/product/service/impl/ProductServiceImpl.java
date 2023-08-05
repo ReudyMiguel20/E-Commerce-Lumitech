@@ -58,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
                 .price(productDTO.getPrice())
                 .category(ProductCategory.valueOf(productDTO.getCategory().toUpperCase()))
                 .brand(productDTO.getBrand())
+                .image(productDTO.getImage())
                 .stock(productDTO.getStock())
                 .build();
     }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Cart</title>
+  <link rel="stylesheet" href="../css/userCartTable.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+
+<h1>User Cart</h1>
+
+<div id="cart">
+<table class="table">
+
+  <thead>
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">Price</th>
+    <th scope="col">Quantity</th>
+    <th scope="col">Remove/Add Quantity</th>
+    <th scope="col">Remove Product</th>
+  </tr>
+  </thead>
+  <tbody id="cart-products">
+<tr>
+  <td>
+    <div class="product-name">
+      <h5>Product Name</h5>
+    </div>
+  </td>
+</tr>
+  </tbody>
+
+</table>
+
+
+  <h4 id="total-text">Total:<h5 id="total"></h5></h4>
+
+
+  <div class="checkout-container">
+    <button id="checkout" class="btn btn-primary">Checkout</button>
+  </div>
+
+</div>
+
+<script src="../js/user-cart.js"></script>
+</body>
+</html>
