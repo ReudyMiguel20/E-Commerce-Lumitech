@@ -1,0 +1,17 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: lightskyblue;
+    color: #000000;
+    padding: 10px;
+}
+
+.col-md-4 {
+    padding: 10px;
+}
+
+li {
+    list-style-type: none;
+}
