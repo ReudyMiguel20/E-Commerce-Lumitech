@@ -1,0 +1,10 @@
+.navbar-brand {
+    font-family: 'Lobster', cursive;
+    font-size: 2.5rem;
+    color: #fff;
+    border : 2px solid forestgreen;
+    background-color: forestgreen;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+}

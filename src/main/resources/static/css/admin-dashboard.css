@@ -1,0 +1,25 @@
+h1 {
+    color: #fff;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Poppins', sans-serif;
+}
+
+h3 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Poppins', sans-serif;
+}
+
+#all-products {
+    margin-top: 50px;
+}

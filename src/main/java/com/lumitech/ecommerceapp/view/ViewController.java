@@ -30,4 +30,19 @@ public class ViewController {
     public String getCartPage() {
         return "html/usercart.html";
     }
+
+    @GetMapping("/admin-dashboard")
+    public String getAdminDashboard() {
+        return "html/admin-dashboard.html";
+    }
+
+    @GetMapping("/update-product")
+    public String getUpdateProductPage() {
+        return "html/update-product.html";
+    }
+
+    @GetMapping("/add-product")
+    public String getAddNewProductPage() {
+        return "html/add-new-product.html";
+    }
 }
