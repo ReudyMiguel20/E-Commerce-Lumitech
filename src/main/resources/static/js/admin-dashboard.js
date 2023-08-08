@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    productsTableBody = document.getElementById("products-table-body");
+    const productsTableBody = document.getElementById("products-table-body");
+
 
     const headers = {
         "Content-Type": "application/json",
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = `update-product.html`;
     }
 
-
     fetchProducts();
 
 });
+
