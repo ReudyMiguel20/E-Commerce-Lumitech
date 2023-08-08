@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const productsTableBody = document.getElementById("products-table-body");
-
+    const usersTableBody = document.getElementById("users-table-body");
 
     const headers = {
         "Content-Type": "application/json",
@@ -74,7 +74,55 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = `update-product.html`;
     }
 
+    //
+
+    function fetchUsers() {
+        fetch("http://localhost:9090/api/users", {
+            method: "GET",
+            headers: headers,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+
+                // Clear existing rows before appending new ones
+                usersTableBody.innerHTML = '';
+
+                for (const user of data) {
+                    const userItem = document.createElement("tr");
+                    userItem.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.firstname}</td>
+                    <td>${user.lastname}</td>
+                    <td>${user.address}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>${user.enabled}</td>
+                    <td>
+                    <button type="submit" class="btn btn-danger" data-user-id="${user.id}">Remove</button>
+                    <button type="submit" class="btn btn-primary" data-user-id="${user.id}">Update</button>
+                    </td>
+                `;
+                    usersTableBody.appendChild(userItem);
+                }
+
+                // Add event listeners to the "Remove" buttons after they are created
+                const removeButtons = document.querySelectorAll(".btn-danger");
+                const updateButtons = document.querySelectorAll(".btn-primary");
+                removeButtons.forEach((button) => {
+                    button.addEventListener("click", handleRemoveItem);
+                });
+                updateButtons.forEach((button) => {
+                    button.addEventListener("click", handleUpdateItem);
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching users:", error);
+            });
+    }
+
     fetchProducts();
+    fetchUsers();
 
 });
 

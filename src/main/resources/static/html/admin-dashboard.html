@@ -17,9 +17,10 @@
 <h1>Admin dashboard</h1>
 
 <div id="all-products">
+
+    <h3>All products</h3>
     <table class="table">
 
-        <h3>All products</h3>
         <button type="button" class="add-product btn btn-success" onclick="window.location.href = '/add-product';">Add new product</button>
         <thead>
         <tr>
@@ -31,6 +32,32 @@
         </tr>
         </thead>
         <tbody id="products-table-body">
+
+        </tbody>
+
+    </table>
+
+
+</div>
+
+
+<div id="all-users">
+
+    <h3>All users</h3>
+    <table class="table">
+
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Enabled</th>
+        </tr>
+        </thead>
+        <tbody id="users-table-body">
 
         </tbody>
 
