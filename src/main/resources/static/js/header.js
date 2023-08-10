@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     header = document.getElementById("header");
     header.innerHTML = `
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
     <a class="navbar-brand" href="/">Lumitech</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
