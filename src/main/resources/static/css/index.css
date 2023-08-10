@@ -1,0 +1,9 @@
+#principal-image {
+    width: 800px;
+    height: 490px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 10px;
+    border: 2px solid forestgreen;
+    box-shadow: 5px 5px 20px black;
+}

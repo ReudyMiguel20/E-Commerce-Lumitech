@@ -32,4 +32,13 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<StatusMessage> deleteUser(@PathVariable long id) {
+        StatusMessage statusMessage = userService.deleteUserById(id);
+
+        return ResponseEntity.ok(statusMessage);
+    }
+
+
 }

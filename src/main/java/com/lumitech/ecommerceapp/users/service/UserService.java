@@ -19,6 +19,8 @@ public interface UserService {
 
     Optional<User> findById(long id);
 
+    StatusMessage deleteUserById(long id);
+
     boolean userAlreadyExists(User userToCheck);
 
     void isUserCostumer(User user);

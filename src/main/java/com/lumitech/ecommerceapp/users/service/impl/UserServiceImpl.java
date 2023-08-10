@@ -89,6 +89,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public StatusMessage deleteUserById(long id) {
+        findById(id);
+
+        userRepository.deleteById(id);
+
+        return new StatusMessage().builder()
+                .message("User has been deleted")
+                .build();
+    }
+
+    @Override
     public boolean userAlreadyExists(User userToCheck) {
         return getAllUsers().stream()
                 .anyMatch(user -> user.getEmail().equals(userToCheck.getEmail()));
@@ -137,17 +148,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public StatusMessage changeUserPassword(User user, UserNewPasswordDTO userNewPasswordDTO) {
+
         if (confirmOldPasswordIsCorrect(user, userNewPasswordDTO.getCurrentPassword())) {
             updateUserPassword(user, userNewPasswordDTO.getNewPassword());
 
-            return new StatusMessage().builder()
-                    .message("Password updated successfully")
-                    .build();
+            return new StatusMessage("Password updated successfully");
         } else {
-            return new StatusMessage().builder()
-                    .message("oops")
-                    .build();
+            return new StatusMessage("Current password does not match");
         }
+
     }
 
 

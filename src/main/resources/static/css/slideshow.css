@@ -1,0 +1,9 @@
+/* Hide all slides by default */
+.slide {
+    display: none;
+}
+
+/* Show the active slide */
+.fade {
+    display: block;
+}
