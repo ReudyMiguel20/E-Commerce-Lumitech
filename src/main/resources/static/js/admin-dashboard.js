@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>${product.id}</td>
                     <td>${product.name}</td>
                     <td>${product.price}</td>
-                    <td>${product.quantity}</td>
+                    <td>${product.stock}</td>
                     <td>
                     <button type="submit" class="btn btn-danger" data-product-id="${product.id}">Remove</button>
                     <button type="submit" class="btn btn-primary" data-product-id="${product.id}">Update</button>
@@ -74,6 +74,23 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = `update-product.html`;
     }
 
+    function handleRemoveUser(event) {
+        const userId = event.target.getAttribute("data-user-id");
+        const url = "http://localhost:9090/api/users/" + userId;
+
+        fetch(url, {
+            method: "DELETE",
+            headers: headers,
+        })
+            .then((response) => {
+                console.log(response);
+                fetchUsers();
+            })
+            .catch((error) => {
+                console.error("Error removing user:", error);
+            });
+    }
+
     //
 
     function fetchUsers() {
@@ -110,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const removeButtons = document.querySelectorAll(".btn-danger");
                 const updateButtons = document.querySelectorAll(".btn-primary");
                 removeButtons.forEach((button) => {
-                    button.addEventListener("click", handleRemoveItem);
+                    button.addEventListener("click", handleRemoveUser);
                 });
                 updateButtons.forEach((button) => {
                     button.addEventListener("click", handleUpdateItem);
