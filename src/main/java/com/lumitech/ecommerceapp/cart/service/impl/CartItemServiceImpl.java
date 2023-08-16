@@ -11,9 +11,11 @@ import com.lumitech.ecommerceapp.product.service.ProductService;
 import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,7 +71,7 @@ public class CartItemServiceImpl implements CartItemService {
      * @return - the user with the product saved to his cart
      */
     @Override
-    public User saveProductToUserCart(Product productToSave, int quantity ,User user) {
+    public User saveProductToUserCart(Product productToSave, int quantity, User user) {
         validateUserIsCustomerForCart(user);
 
         CartItem cartItem = CartItem.builder()
@@ -101,7 +103,14 @@ public class CartItemServiceImpl implements CartItemService {
         List<CartItem> userCart = user.getCart().getCartItems();
 
         /* Create a ProductCart list to represent Products on cart, it also converts the Product to ProductCart
-           inside the stream */
+       inside the stream, items are still products this is just a DTO to represent them in a fashioned way */
+        return generateUserProductCart(userCart);
+    }
+
+    /* Create a ProductCart list to represent Products on cart, it also converts the Product to ProductCart
+       inside the stream, items are still products this is just a DTO to represent them in a fashioned way */
+    @Override
+    public UserProductCart generateUserProductCart(List<CartItem> userCart) {
         List<ProductCart> productsOnCart = userCart.stream()
                 .map(cartItem -> productService.convertProductToProductCart(cartItem.getProduct(), cartItem.getQuantity()))
                 .toList();
@@ -134,7 +143,7 @@ public class CartItemServiceImpl implements CartItemService {
      * Deletes a product from the user cart and returns the user with the product deleted from his cart
      *
      * @param productToDelete - the product to delete from the user cart
-     * @param user - the user to delete the product from his cart
+     * @param user            - the user to delete the product from his cart
      * @return - the user with the product deleted from his cart
      */
     @Override
@@ -158,4 +167,35 @@ public class CartItemServiceImpl implements CartItemService {
 
         return userService.saveAndReturnUser(user);
     }
+
+    @Override
+    public User deleteAllProductsFromCart(User user) {
+        validateUserIsCustomerForCart(user);
+
+        // Get a copy of the user's cart items to avoid concurrent modification
+        List<CartItem> userCart = new ArrayList<>(user.getCart().getCartItems());
+
+        for (CartItem productToDelete : userCart) {
+            // Retrieve the cart item from the database
+            CartItem cartItemToDelete = cartItemRepository.findCartItemByCartIdAndProductId(user.getCart().getId(), productToDelete.getProduct().getId()).orElse(null);
+
+            if (cartItemToDelete != null) {
+                // Update the stock
+                Product productToRestoreStock = cartItemToDelete.getProduct();
+                int stockQuantityToRestoreBack = cartItemToDelete.getQuantity();
+                productService.restoreProductStock(productToRestoreStock, stockQuantityToRestoreBack);
+
+                // Remove the cart item from the user's cart and delete it from the database
+                user.getCart().getCartItems().remove(cartItemToDelete);
+                cartItemRepository.delete(cartItemToDelete);
+            }
+        }
+
+        // Clear the user's cart
+        user.getCart().getCartItems().clear();
+
+        // Save the updated user
+        return userService.saveAndReturnUser(user);
+    }
+
 }
