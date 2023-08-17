@@ -88,7 +88,7 @@ public class CartController {
         // Get the user to get the cart from it and delete all
         User user = userService.findByEmail(auth.getName()).get();
 
-        user = cartItemService.deleteAllProductsFromCart(user);
+        user = cartItemService.deleteAllProductsFromCartAndReturnStock(user);
 
         // Get the updated cart of the user
         UserProductCart userProductCart = cartItemService.userProductsOnCart(user);

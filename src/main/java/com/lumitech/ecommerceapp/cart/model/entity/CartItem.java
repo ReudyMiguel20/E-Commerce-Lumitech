@@ -1,5 +1,6 @@
 package com.lumitech.ecommerceapp.cart.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lumitech.ecommerceapp.product.model.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +20,7 @@ public class CartItem {
 
     @JoinColumn(name = "cart_id")
     @ManyToOne
+    @JsonIgnore
     private Cart cart;
 
     @JoinColumn(name = "product_id")

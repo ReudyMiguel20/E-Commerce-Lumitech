@@ -25,5 +25,9 @@ public interface CartItemService {
 
     User deleteProductFromUserCart(Product productToDelete, User user);
 
-    User deleteAllProductsFromCart(User user);
+    User deleteAllProductsFromCartAndReturnStock(User user);
+
+    User deleteAllProductsFromUserCart(User user);
+
+    double getPriceOfCartItems(User user);
 }

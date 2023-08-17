@@ -11,7 +11,6 @@ import com.lumitech.ecommerceapp.product.service.ProductService;
 import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;
 import com.lumitech.ecommerceapp.users.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -169,7 +168,7 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public User deleteAllProductsFromCart(User user) {
+    public User deleteAllProductsFromCartAndReturnStock(User user) {
         validateUserIsCustomerForCart(user);
 
         // Get a copy of the user's cart items to avoid concurrent modification
@@ -196,6 +195,42 @@ public class CartItemServiceImpl implements CartItemService {
 
         // Save the updated user
         return userService.saveAndReturnUser(user);
+    }
+
+    //Convert all the cart items to an order
+    @Override
+    public User deleteAllProductsFromUserCart(User user) {
+        validateUserIsCustomerForCart(user);
+
+        // Get a copy of the user's cart items to avoid concurrent modification
+        List<CartItem> userCart = new ArrayList<>(user.getCart().getCartItems());
+
+
+        for (CartItem productToDelete : userCart) {
+            // Retrieve the cart item from the database
+            CartItem cartItemToDelete = cartItemRepository.findCartItemByCartIdAndProductId(user.getCart().getId(), productToDelete.getProduct().getId()).orElse(null);
+
+            if (cartItemToDelete != null) {
+                // Remove the cart item from the user's cart and delete it from the database
+                user.getCart().getCartItems().remove(cartItemToDelete);
+                cartItemRepository.delete(cartItemToDelete);
+            }
+        }
+
+        // Clear the user's cart
+        user.getCart().getCartItems().clear();
+
+        // Save the updated user
+        return userService.saveAndReturnUser(user);
+    }
+
+    @Override
+    public double getPriceOfCartItems(User user) {
+        List<CartItem> cartItems = user.getCart().getCartItems();
+
+        return cartItems.stream()
+                .mapToDouble(cartItem -> cartItem.getProduct().getPrice() * cartItem.getQuantity())
+                .sum();
     }
 
 }
