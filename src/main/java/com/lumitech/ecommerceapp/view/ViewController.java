@@ -45,4 +45,14 @@ public class ViewController {
     public String getAddNewProductPage() {
         return "html/add-new-product.html";
     }
+
+    @GetMapping("/products")
+    public String getProductPage() {
+        return "html/products.html";
+    }
+
+    @GetMapping("/orders")
+    public String getOrdersPage() {
+        return "html/orders.html";
+    }
 }

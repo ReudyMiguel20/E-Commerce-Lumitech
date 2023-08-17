@@ -7,9 +7,6 @@ import lombok.*;
 
 import java.util.Objects;
 
-/* Ideas for the product entity
-1- Can store images soon in the database */
-
 @Entity
 @Table(name = "products")
 @Builder
@@ -22,7 +19,6 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private long id;
 
     private String name;

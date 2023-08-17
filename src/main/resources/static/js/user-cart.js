@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     cartProduct = document.getElementById("cart");
     cartProductsTable = document.getElementById("cart-products");
     total = document.getElementById("total");
+    clearCartButton = document.getElementById("clear-cart");
 
     const headers = {
         "Content-Type": "application/json",
@@ -72,6 +73,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Error removing item:", error);
             });
     }
+
+    function clearCart() {
+        fetch("http://localhost:9090/api/cart/empty", {
+            method: "DELETE",
+            headers: headers,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                // After successful deletion, fetch the updated cart
+                fetchCart();
+            })
+            .catch((error) => {
+                console.error("Error removing item:", error);
+            });
+    }
+
+    clearCartButton.addEventListener("click", clearCart);
 
     fetchCart();
 });

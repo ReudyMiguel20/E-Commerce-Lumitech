@@ -60,10 +60,10 @@ public class CartController {
         int quantity = addProductToCartDTO.getQuantity();
 
         // Add the product to the User cart
-        User testUser = cartItemService.saveProductToUserCart(productToAdd, quantity ,user);
+        user = cartItemService.saveProductToUserCart(productToAdd, quantity ,user);
 
         // Get the updated cart of the user
-        UserProductCart userProductCart = cartItemService.userProductsOnCart(testUser);
+        UserProductCart userProductCart = cartItemService.userProductsOnCart(user);
 
         return ResponseEntity.ok(userProductCart);
     }
@@ -75,10 +75,23 @@ public class CartController {
         Product productToDelete = productService.findByNameIgnoreCase(deleteProductFromCartDTO.getProductName());
 
         // Delete the product to the User cart and get the updated user
-        User testUser = cartItemService.deleteProductFromUserCart(productToDelete, user);
+        user = cartItemService.deleteProductFromUserCart(productToDelete, user);
 
         // Get the updated cart of the user
-        UserProductCart userProductCart = cartItemService.userProductsOnCart(testUser);
+        UserProductCart userProductCart = cartItemService.userProductsOnCart(user);
+
+        return ResponseEntity.ok(userProductCart);
+    }
+
+    @DeleteMapping("/empty")
+    public ResponseEntity<UserProductCart> deleteAllItemsFromCart(Authentication auth) {
+        // Get the user to get the cart from it and delete all
+        User user = userService.findByEmail(auth.getName()).get();
+
+        user = cartItemService.deleteAllProductsFromCartAndReturnStock(user);
+
+        // Get the updated cart of the user
+        UserProductCart userProductCart = cartItemService.userProductsOnCart(user);
 
         return ResponseEntity.ok(userProductCart);
     }

@@ -20,10 +20,14 @@
 
 }
 
-.checkout-container {
+.checkout-buttons-container {
     display: flex;
     justify-content: flex-end;
     padding-right: 100px;
     margin-top: 10px;
+}
+
+.checkout-buttons-container button {
+    margin-left: 10px;
 }
 
