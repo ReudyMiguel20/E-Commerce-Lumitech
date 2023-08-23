@@ -1,2 +1,47 @@
-# E-Commerce-Lumitech
- A personal project showcasing an E-Commerce website for tech components built with Spring Boot.
+# E-Commerce Project (Lumitech)
+
+E-Commerce website for selling tech and electronic components and devices, developed with SpringBoot for the backend and HTML, CSS, and JS for the frontend.
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Key Features](#key-features)
+- [Core Project Elements](#core-project-elements)
+- [Explaining Roles](#explaining-roles)
+
+## Project Overview
+
+This project is an E-Commerce website designed for selling a wide range of tech and electronic components and devices. The backend is built using SpringBoot, while the frontend is developed using HTML, CSS, and JavaScript.
+
+## Key Features
+
+Explore the core elements and functionalities that power this project:
+
+### Core Project Elements
+
+- **Spring Security:** Ensures secure access to the application.
+- **JPA (Java Persistence API):** Manages relational data in Java applications.
+- **Hibernate:** ORM (Object-Relational Mapping) framework for Java.
+- **Validation:** Ensures data integrity and consistency.
+- **JWT Token:** JSON Web Tokens for authentication.
+- **Basic Authentication:** Standard username and password authentication.
+- **Exception Handling for Various Cases:** Gracefully handles errors.
+- **Sort and Pagination:** Efficiently organizes and displays data.
+- **HTML:** Markup language for creating web pages.
+- **CSS:** Stylesheets for web page presentation.
+- **JavaScript:** Adds interactivity and functionality to web pages.
+- **H2 & PostgreSQL:** Relational database management systems used in development.
+- **JUnit:** Testing framework for Java applications.
+- **Mockito:** Mocking framework for unit testing.
+- **Lombok:** Reduces boilerplate code and simplifies Java development.
+
+### Explaining Roles
+
+When starting the project, users must register before accessing any resources. The first user is granted the Administrator role, while subsequent users are assigned the Customer role.
+
+**Administrators:** 
+
+Administrators have specific restrictions:
+
+- Cannot add products to the cart (They cannot make purchases).
+- Access to an admin dashboard for managing Users and Products, allowing CRUD operations.
