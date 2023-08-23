@@ -37,11 +37,17 @@ Explore the core elements and functionalities that power this project:
 
 ### Explaining Roles
 
-When starting the project, users must register before accessing any resources. The first user is granted the Administrator role, while subsequent users are assigned the Customer role.
-
 **Administrators:** 
 
 Administrators have specific restrictions:
 
 - Cannot add products to the cart (They cannot make purchases).
-- Access to an admin dashboard for managing Users and Products, allowing CRUD operations.
+- Access to an admin dashboard for managing Users, Products and Orders, allowing CRUD operations.
+
+**Customers:**
+
+Customers are able to add products to their cart which then they can confirm to go to checkout and then able to place an order. 
+
+Customers can add and remove products from their carts, they cannot do that after the order has been placed.
+
+Customers cannot access certain endpoints which are only available for Administrators.
