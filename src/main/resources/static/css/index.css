@@ -1,6 +1,6 @@
 #principal-image {
-    width: 800px;
-    height: 490px;
+    width: 600px;
+    height: 290px;
     margin: 0 auto;
     display: block;
     border-radius: 10px;
@@ -10,4 +10,8 @@
 
 #product-container {
     margin: 20px 70px 70px;
+}
+
+body {
+    background-color: grey;
 }
