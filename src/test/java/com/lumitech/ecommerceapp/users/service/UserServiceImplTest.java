@@ -1,6 +1,6 @@
 package com.lumitech.ecommerceapp.users.service;
 
-import com.lumitech.ecommerceapp.users.model.dto.RegisterRequest;
+import com.lumitech.ecommerceapp.users.model.dto.*;
 import com.lumitech.ecommerceapp.users.model.dto.UserNewPasswordDTO;
 import com.lumitech.ecommerceapp.users.model.entity.Role;
 import com.lumitech.ecommerceapp.users.model.entity.User;

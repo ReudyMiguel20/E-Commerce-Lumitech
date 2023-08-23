@@ -53,3 +53,14 @@ h3 {
     text-align: center;
 
 }
+
+#sort-select {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+#product-container {
+    margin: 20px 70px 70px;
+}

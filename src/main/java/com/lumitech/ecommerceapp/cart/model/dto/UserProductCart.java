@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserProductCart {
 
-    List<ProductCart> productList = new ArrayList<>();
+    private List<ProductCart> productList = new ArrayList<>();
 
     private double total;
 }

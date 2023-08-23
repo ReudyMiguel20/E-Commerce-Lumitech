@@ -7,3 +7,7 @@
     border: 2px solid forestgreen;
     box-shadow: 5px 5px 20px black;
 }
+
+#product-container {
+    margin: 20px 70px 70px;
+}

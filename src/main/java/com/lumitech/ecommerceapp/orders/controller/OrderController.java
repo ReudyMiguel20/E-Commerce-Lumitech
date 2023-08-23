@@ -1,6 +1,5 @@
 package com.lumitech.ecommerceapp.orders.controller;
 
-import com.lumitech.ecommerceapp.cart.service.CartItemService;
 import com.lumitech.ecommerceapp.orders.model.dto.OrderSummary;
 import com.lumitech.ecommerceapp.orders.service.OrderService;
 import com.lumitech.ecommerceapp.users.model.entity.User;
@@ -37,5 +36,9 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findAllOrderByUserId(user));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllOrders() {
+        return ResponseEntity.ok(orderService.findAllOrders());
+    }
 
 }

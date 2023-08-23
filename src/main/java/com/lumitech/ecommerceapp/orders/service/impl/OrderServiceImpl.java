@@ -2,8 +2,8 @@ package com.lumitech.ecommerceapp.orders.service.impl;
 
 import com.lumitech.ecommerceapp.cart.service.CartItemService;
 import com.lumitech.ecommerceapp.orders.model.dto.OrderSummary;
-import com.lumitech.ecommerceapp.orders.model.entity.PurchaseOrder;
 import com.lumitech.ecommerceapp.orders.model.entity.OrderItem;
+import com.lumitech.ecommerceapp.orders.model.entity.PurchaseOrder;
 import com.lumitech.ecommerceapp.orders.repository.OrderRepository;
 import com.lumitech.ecommerceapp.orders.service.OrderItemService;
 import com.lumitech.ecommerceapp.orders.service.OrderService;

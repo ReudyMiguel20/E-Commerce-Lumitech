@@ -1,11 +1,15 @@
 const productList = document.getElementById("product-list");
 const productGrid = document.getElementById("product-grid");
+const sortSelect = document.getElementById("sort-select");
 
-function fetchProducts() {
-    fetch("http://localhost:9090/api/products")
+function fetchProducts(url) {
+    fetch(url)
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
+
+            // Clear the product grid
+            productGrid.innerHTML = "";
 
             for (const product of data) {
                 const productItem = document.createElement("div");
@@ -44,14 +48,15 @@ function fetchProducts() {
             }
 
 
-    const addToCartButtons = document.querySelectorAll(".btn-success");
-    addToCartButtons.forEach((button) => {
-        button.addEventListener("click", handleAddToCart);
-    });
-});
+            const addToCartButtons = document.querySelectorAll(".btn-success");
+            addToCartButtons.forEach((button) => {
+                button.addEventListener("click", handleAddToCart);
+            });
+        });
 }
 
-fetchProducts();
+// Fetch products on page load
+fetchProducts("http://localhost:9090/api/products");
 
 function handleAddToCart(event) {
 
@@ -92,3 +97,38 @@ function handleAddToCart(event) {
         });
 
 }
+
+sortSelect.addEventListener("change", function (event) {
+    const selectedOption = event.target.value;
+
+    const apiBaseUrl = 'http://localhost:9090/api/products';
+
+    let apiSortUrl = apiBaseUrl;
+
+    switch (selectedOption) {
+        case 'nameAsc':
+            apiSortUrl += '?sort=name&order=asc';
+            break;
+        case 'nameDesc':
+            apiSortUrl += '?sort=name&order=desc';
+            break;
+        case 'priceAsc':
+            apiSortUrl += '?sort=price&order=asc';
+            break;
+        case 'priceDesc':
+            apiSortUrl += '?sort=price&order=desc';
+            break;
+        case 'categoryAsc':
+            apiSortUrl += '?sort=category&order=asc';
+            break;
+        case 'categoryDesc':
+            apiSortUrl += '?sort=category&order=desc';
+            break;
+        default:
+            break;
+    }
+
+    // Fetch and display sorted products
+    fetchProducts(apiSortUrl);
+});
+
