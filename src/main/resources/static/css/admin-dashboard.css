@@ -24,3 +24,7 @@ h3 {
     margin-top: 50px;
     margin-bottom: 110px;
 }
+
+table {
+    background: linear-gradient(to right, #ABFAF5, white, #ABFAF5);
+}

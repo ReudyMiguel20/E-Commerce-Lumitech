@@ -15,15 +15,19 @@
 
 </header>
 
+<div id="entire-form">
+
+    <h2>Please Login To Continue</h2>
+
 <form id="login-form">
     <div class="mb-3">
-        <label for="inputEmail" class="form-label">Email address</label>
+        <label for="inputEmail" class="form-label"><b>Email address</b></label>
         <input name="email" type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
     </div>
 
     <div class="row g-3 align-items-center">
         <div class="col-auto">
-            <label for="inputPassword" class="col-form-label">Password</label>
+            <label for="inputPassword" class="col-form-label"><b>Password</b></label>
         </div>
         <div class="col-auto">
             <input name="password" type="password" id="inputPassword" class="form-control"
@@ -32,13 +36,20 @@
 
         <div class="col-auto">
     <span id="passwordHelpInline" class="form-text">
-      Must be 8-20 characters long.
+
     </span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Primary</button>
+
+    </div>
+    <br>
+    <div class="button-and-link">
+    <button type="submit" class="btn btn-primary" style="width: 30%">Login</button>
+        <a href="register">Don't have an account? Register here</a>
     </div>
 </form>
+
+</div>
 
 <footer id="footer">
 

@@ -15,42 +15,59 @@
 
 </header>
 
-<h2>Create new account</h2>
+<div id="entire-form">
 
-<form id="login-form">
+    <h2>Create new account</h2>
 
-    <label for="inputFirstName" class="col-form-label">First Name</label>
-    <input name="firstname" class="form-control" id=inputFirstName type="text" placeholder="Default input" aria-label="default input example">
+    <form id="login-form">
 
-    <label for="inputLastName" class="col-form-label">Last Name</label>
-    <input name="lastname" class="form-control" id=inputLastName type="text" placeholder="Default input" aria-label="default input example">
-
-    <label for="inputAddress" class="col-form-label">Address</label>
-    <input name="address" class="form-control" id=inputAddress type="text" placeholder="Default input" aria-label="default input example">
-
-    <div class="mb-3">
-        <label for="inputEmail" class="form-label">Email address</label>
-        <input name="email" type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
-    </div>
-
-    <div class="row g-3 align-items-center">
-        <div class="col-auto">
-            <label for="inputPassword" class="col-form-label">Password</label>
-        </div>
-        <div class="col-auto">
-            <input name="password" type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpInline">
+        <div class="mb-3">
+        <label for="inputFirstName" class="col-form-label">First Name</label>
+        <input name="firstname" class="form-control" id=inputFirstName type="text" placeholder="Default input"
+               aria-label="default input example">
         </div>
 
-        <div class="col-auto">
+        <div class="mb-3">
+        <label for="inputLastName" class="col-form-label">Last Name</label>
+        <input name="lastname" class="form-control" id=inputLastName type="text" placeholder="Default input"
+               aria-label="default input example">
+        </div>
+
+        <div class="mb-3">
+        <label for="inputAddress" class="col-form-label">Address</label>
+        <input name="address" class="form-control" id=inputAddress type="text" placeholder="Default input"
+               aria-label="default input example">
+        </div>
+
+        <div class="mb-3">
+            <label for="inputEmail" class="form-label">Email address</label>
+            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+        </div>
+
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="inputPassword" class="col-form-label">Password</label>
+            </div>
+            <div class="col-auto">
+                <input name="password" type="password" id="inputPassword" class="form-control"
+                       aria-describedby="passwordHelpInline">
+            </div>
+
+            <div class="col-auto">
     <span id="passwordHelpInline" class="form-text">
       Must be 8-20 characters long.
     </span>
+            </div>
+
+
         </div>
 
-        <button type="submit" class="btn btn-primary">Primary</button>
-    </div>
+        <br>
+        <button type="submit" class="btn btn-primary" style="width: 30%" >Register</button>
 
-</form>
+    </form>
+
+</div>
 
 <footer id="footer">
 

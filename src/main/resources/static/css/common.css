@@ -5,3 +5,12 @@ body {
     #ABFAF5
     );
 }
+
+.mb-3 {
+    width: 50%;
+}
+
+#entire-form {
+    margin-left: 25px;
+}
+
