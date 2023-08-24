@@ -1,5 +1,9 @@
 # E-Commerce Project (Lumitech)
 
+<p align="center">
+  <a href="https://ibb.co/1qQDnZX"><img src="https://i.ibb.co/swR0Pj1/lumitech-website.png" alt="lumitech-website" border="0"></a>
+</p>
+
 ## Project Overview
 
 This project is an E-Commerce website designed for selling a wide range of tech and electronic components and devices. The backend is built using SpringBoot, while the frontend is developed using HTML, CSS, and JavaScript.
