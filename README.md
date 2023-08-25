@@ -42,10 +42,10 @@ Explore the core elements and functionalities that power this project:
 
 **Administrators:** 
 
-Administrators have specific restrictions:
+They have specific access rights and restrictions, including:
 
 - Cannot add products to the cart (They cannot make purchases).
-- Access to an admin dashboard for managing Users, Products and Orders, allowing CRUD operations.
+- Access to an admin dashboard for managing Users, Products, and Orders, allowing CRUD operations.
 
 **Customers:**
 
