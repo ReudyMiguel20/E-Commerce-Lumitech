@@ -45,6 +45,7 @@ public class SecurityConfiguration {
                             .requestMatchers(HttpMethod.POST, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                             .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                             .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
+                            .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                             .anyRequest()
                             .permitAll();
                 })

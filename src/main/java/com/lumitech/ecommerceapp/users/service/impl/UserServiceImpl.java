@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public StatusMessage deleteUserById(long id) {
+
         findById(id);
 
         userRepository.deleteById(id);

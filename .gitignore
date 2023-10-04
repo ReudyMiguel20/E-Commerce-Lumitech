@@ -36,3 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 src/main/resources/logback.xml
+src/main/resources/application-aws.properties
